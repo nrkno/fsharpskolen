@@ -9,4 +9,10 @@
 
 let chunk (n : int) (things : 'a list) : 'a list list = []
 
+chunk 3 [1 .. 9] |> printfn "%A"
 chunk 3 [1 .. 10] |> printfn "%A"
+chunk 2 ['a' .. 'e'] |> printfn "%A"
+chunk 0 [1 .. 10] |> printfn "%A"
+chunk 2 [1] |> printfn "%A"
+chunk 1 [] |> printfn "%A"
+chunk 1 [[[[]]]] |> printfn "%A"
