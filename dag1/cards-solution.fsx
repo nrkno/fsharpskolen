@@ -3,7 +3,6 @@
 
 // Et kort består av en farge (suit) og en verdi (face), hvordan skal disse typene se ut?
 type Suit = Diamonds | Hearts | Clubs | Spades
-open System.Runtime.InteropServices
 
 type Face = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace
 
