@@ -29,11 +29,15 @@ let stringLength (str : string option) =
    Option.map String.length str
     
 // Det går også an å hente ut intverdien direkte med feks Option.fold
-let stringLengthFold  (str : string option) = 
-     Option.fold (fun _ (s : string) -> s.Length) 0 str
+let stringLengthValue  (str : string option) = 
+    str
+    |>Option.map String.length
+    |> Option.defaultValue 0
+     //Option.fold (fun _ (s : string) -> s.Length) 0 str
+     
 
 printfn "string length option: %A" (stringLength (Some "Hei"))
-printfn "String length int: %d" (stringLengthFold (Some "Hei"))
+printfn "String length int: %d" (stringLengthValue (Some "Hei"))
 
 
 // Hva om vi har to string options og vil sette de sammen til en streng?
@@ -51,7 +55,7 @@ let concat2 (str1 : string option) (str2 : string option) =
 // En fin ting med string.Length er at den er en ikke-negativ int, så la oss kombinere funksjoner vi har laget til 
 // å finne lengden av konkatering av to strenger, og her kan man gå to veier, 
 // enten finne lengden av hver av strengene og så legge sammen
-// eller konkatenere strengene og så finne lengen
+// eller konkatenere strengene og så finne lengden
 // de to veiene bør gi samme resultat
 // Funksjonene kan implementeres med bare å bruke stringLenght, add og concat    
 let addTwoLengths  (str1 : string option) (str2 : string option) = 
