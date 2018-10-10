@@ -1,27 +1,27 @@
-module Vector = 
+type Vector = private { x : float; y : float }
 
-    type T = private { x : float; y : float }
+module Vector = 
     
     let create x y = { x = x; y = y }
     
-    let x (v : T) = v.x
+    let x v = v.x
 
-    let y (v : T) = v.y
+    let y v = v.y
 
-    let pair (v : T) = (v.x, v.y)
+    let pair v = (v.x, v.y)
     
-    let add (v1 : T) (v2 : T) = 
+    let add v1 v2 = 
       { x = v1.x + v2.x
         y = v1.y + v2.y }
         
-    let negate (v : T) = 
+    let negate v = 
       { x = -v.x 
         y = -v.y }
         
-    let subtract (v1 : T) (v2 : T) = 
+    let subtract v1 v2 = 
       { x = v1.x - v2.x
         y = v1.y - v2.y }
         
-    let length (v : T) = 
+    let length v = 
       sqrt (v.x * v.x + v.y * v.y)
       
