@@ -1,10 +1,11 @@
 open System
 
 type Name = Name of string 
-type Role = AnonymousRole | ChildRole | Role of string 
+type ValidRole = ValidRole of string 
+type Role = AnonymousRole | ChildRole | OtherRole of ValidRole 
 
 type ValidContributor = 
-    { role : Role
+    { role : ValidRole
       name : Name 
       givenName : Name option 
       familyName : Name option }
@@ -27,14 +28,14 @@ let createValidRole (s : string) : Role =
     else if s.Length = 0 then raise (ArgumentException("s"))
     else if s.Contains("barn") then ChildRole 
     else if s.Contains("anonym") then AnonymousRole 
-    else Role s
+    else OtherRole (ValidRole s)
     
 let createContributor (roleStr : string) (nameStr : string) (givenNameStr : string option) (familyNameStr : string option) : Contributor = 
     match createValidRole roleStr with 
     | AnonymousRole -> Anonymous 
     | ChildRole -> Child 
-    | Role r -> 
-      let info = { role = Role r 
+    | OtherRole r -> 
+      let info = { role = r 
                    name = createValidName nameStr
                    givenName = Option.map createValidName givenNameStr
                    familyName = Option.map createValidName familyNameStr }
