@@ -1,0 +1,7 @@
+# UsageRight
+
+I katalogdomenemodellen har vi en klasse `UsageRight` som representerer bruksrettigheter for et program. Hvordan ville du modellert bruksrettigheter med algebraiske datatyper i F#? Det er fint om vi kan uttrykke hva slags bruksrettigheter vi har så eksplisitt som mulig. Det er fint om vi kan forbedre modellen i samme slengen. For det første kan du se bort fra `AccessibilityType` og den hardkodede `_rightsExpire`-verdien. Videre betyr `IsGeoBlocked` at vi kun har rettigheter til å vise programmet i Norge. Hvis `IsGeoBlocked` er `false`, fortolkes det som om vi har rettigheter til å vise programmet i hele verden. Det er imidlertid ønske om å støtte flere nivåer, sånn som rettigheter til å vise programmet i de nordiske landene. Da blir fort et boolsk flagg litt tynt. 
+
+I Granitt-databasen har alle bruksrettigheter et start-tidspunkt og et slutt-tidspunkt, men det er en slags tilsnikelse. Noen programmer har bruksrettigheter fra 4. februar år 42, som skal fortolkes som "fra tidenes morgen", og mange har bruksrettigheter til utgangen av år 9999 som i praksis vil si at de ikke utløper. År 42-scenariet er sjeldent (det gjelder 42 programmer); som regel har vi rettigheter fra et gitt tidspunkt til år 9999, eller i et gitt tidsintervall. 
+
+Lag en funksjon som tar en bruksrettighet-verdi og et tidspunkt, og avgjør hva slags bruksrettighet vi har på det aktuelle tidspunktet, om noe.
