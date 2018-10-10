@@ -52,3 +52,11 @@ let isFourOfAKind hand = true
 // kanskje på tide å teste om funksjonene vi har til nå funker som de skal?
 // lag hender som skal gi true for royal flush, straight fluh og four of a kind, og en som gir false.
 
+// Denne oppgaven kan fortsette en god stund til. Vi stopper nå men om du vil fortsette videre på egenhånd så 
+// kan du tenke på hvordan man skal modellere spill med flere spillere, og hvem som vinner
+// Da er det ikke nok å vite om noe er royalFlush, man må også ha rangering av kortfargene i tilfelle flere spillere
+// har samme type hånd, bare med ulik farge.
+// Kanskje alle varianter av hender må types som feks 
+// type RoyalFlush of Suit
+// Hvordan skal funksjonen som tar inn en hånd og gir deg tilbake en av rankinvariantene se ut?
+// Hvordan får man en verdi av en gitt type?

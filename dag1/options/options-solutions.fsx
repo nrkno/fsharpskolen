@@ -9,8 +9,7 @@ let nonNegative x =
 let add x y = 
     match x, y with
     | Some a, Some b -> Some (a + b)
-    | None, _ -> None
-    | _, None -> None
+    | _ -> None
 
 // Option har også en egen høyereordens funksjon, Option.map2, som kan gjøre matchingen for oss
 // Lag add2 med denne funksjonen istedet
@@ -45,8 +44,6 @@ printfn "String length int: %d" (stringLengthValue (Some "Hei"))
 let concat (str1 : string option) (str2 : string option) = 
     match str1, str2 with 
     | Some s, Some t -> Some (s + t)
-    | Some s, None -> None
-    | None, Some t -> None
     | _ -> None
 
 let concat2 (str1 : string option) (str2 : string option) = 
