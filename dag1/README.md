@@ -4,6 +4,7 @@
 * Funksjoner 
 * Rekursjon
 * Lister
-* options
+* Options
+* Discriminated unions
 * Records
-* Card game
+* DDD
