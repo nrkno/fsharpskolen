@@ -7,8 +7,6 @@ module Vector =
     let x v = v.x
 
     let y v = v.y
-
-    let pair v = (v.x, v.y)
     
     let add v1 v2 = 
       { x = v1.x + v2.x
