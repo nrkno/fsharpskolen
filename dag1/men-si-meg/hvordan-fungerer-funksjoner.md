@@ -73,7 +73,7 @@ void Main()
 
 Definisjonen av `Func<int, Func<int, int>> add = x => y => x + y` ser kanskje ikke så pen ut på grunn av de nøstede Func'ene, men ellers er den til forveksling lik den usukrede F#-varianten, `let add = fun x -> fun y -> x + y`.
 
-Men hva om du ikke har en fin og "curried" lambda av typen `Func<T1, T2>`? Det går an å lage extension-metoder for så mangt! 
+Men hva om du ikke har en fin og "curried" lambda av typen `Func<T1, T2>`? Da må man gjøre noe med lambdaen sånn at den blir "curried". Heldigvis går det an å lage extension-metoder for så mangt! 
 
 ```csharp
 void Main()
