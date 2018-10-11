@@ -14,7 +14,7 @@ Hvis du har to funksjoner som "passer sammen" typemessig, så kan du sette dem s
 
 Hva vil det si at to funksjoner "passer sammen"? Det betyr at returtypen fra den ene funksjonen er den samme som inputtypen til den andre funksjonen. Funksjonene `lengde` og `dobbel` passer sammen, fordi `lengde` returnerer en `int`, og `dobbel` forventer en `int`. Men mer at rekkefølgen er viktig - `dobbel` og `lengde` passer ikke sammen, for `dobbel` returnerer en `int` mens `lengde` forventer en `string`! Det er på en måte opplagt: du kan kalle `dobbel` på resultatet til `lengde`, men ikke `lengde` på resultatet av `dobbel`.
 
-Hvis du ser på returtyper og inputtyper vil du se at `lengde` og `mye` passer sammen, og det samme gjør `dobbel` og `mye`. Vi kan lage en hel haug av funksjoner, med litt ulik oppførsel:
+Hvis du ser på returtyper og inputtyper vil du se at `lengde` og `mye` passer sammen, og det samme gjør `dobbel` og `mye`. Ved hjelp av komposisjonsoperatoren `>>` kan vi lage en hel haug av nye funksjoner, med litt ulik oppførsel:
 
 ```fsharp
 let lengde (s : string) : int = s.Length
