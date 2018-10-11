@@ -1,11 +1,8 @@
-let everyother (lst : 'a list) : 'a list = 
-    let rec help toggle lst = 
-        match lst with 
-        | [] -> []
-        | h::t ->
-          let rest = help (not toggle) t 
-          if toggle then h :: rest else rest 
-    help true lst
+let rec everyother (lst : 'a list) : 'a list = 
+  match lst with 
+  | [] -> []
+  | [x] -> [x]
+  | x::_::t -> x :: everyother t
 
 let everyotter lst = 
   match lst with 
