@@ -57,10 +57,29 @@ let uncurry fn (a, b) = fn a b
 
 // Finne veldig godt eksempel på rekursjon.
 
-let rec squared lst = 
-  match lst with 
-  | [] -> []
-  | h :: t -> h * h :: squared t 
+let rec squared (lst : int list) = 
+  let result = 
+    match lst with 
+    | [] -> []
+    | h :: t -> h * h :: squared t
+  result 
+
+let squared' (lst : int list) = 
+  let rec sq i lst = 
+    printfn "Calling sq at depth %d with list %A" i lst
+    let result = 
+      match lst with 
+      | [] -> 
+        printfn "The list is empty, nothing left to do!"
+        []
+      | h :: t -> 
+        let h' = h * h
+        let t' = sq (i + 1) t
+        printfn "In sq at depth %d, consing %d onto %A" i h' t'
+        h' :: t'
+    printfn "Returning from sq at depth %d with result %A" i result
+    result 
+  sq 0 lst
 
 type MyList<'a> = Nil | Successor of ('a * MyList<'a>)
  
@@ -69,15 +88,6 @@ let rec pairwisesum lst =
   | [] -> []
   | [a] -> [a]
   | a::b::t -> (a + b) :: pairwisesum t 
-
-let everyother lst = 
-    let rec help toggle lst = 
-        match lst with 
-        | [] -> []
-        | h::t ->
-          let rest = help (not toggle) t 
-          if toggle then h :: rest else rest 
-    help true lst
 
 // Rekursjon med eller uten hale?
 
