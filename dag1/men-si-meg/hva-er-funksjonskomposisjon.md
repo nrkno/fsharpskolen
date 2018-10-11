@@ -10,11 +10,11 @@ I F# har alle funksjoner en _type_ som ser noe slik ut: `'a -> 'b`, fra en eller
 
 Hvis du for eksempel har en funksjon `lengde` som gir deg lengden av en tekststreng, så vil typen til funksjonen være `string -> int`. Hvis du har en funksjon `dobbel` som fordobler et heltall, vil typen være `int -> int`. Og hvis du til slutt har en funksjon `mye` som avgjør om et heltall er stort eller ikke, så vil typen være `int -> bool`.
 
-Hvis du to funksjoner som "passer sammen" typemessig, så kan du sette dem sammen, eller _komponere_ dem til en ny funksjon. Den nye funksjonen vil gi deg samme resultat som om du kaller de to funksjonene etter hverandre. 
+Hvis du har to funksjoner som "passer sammen" typemessig, så kan du sette dem sammen, eller _komponere_ dem til en ny funksjon. Den nye funksjonen vil gi deg samme resultat som om du kaller de to funksjonene etter hverandre. 
 
 Hva vil det si at to funksjoner "passer sammen"? Det betyr at returtypen fra den ene funksjonen er den samme som inputtypen til den andre funksjonen. Funksjonene `lengde` og `dobbel` passer sammen, fordi `lengde` returnerer en `int`, og `dobbel` forventer en `int`. Men mer at rekkefølgen er viktig - `dobbel` og `lengde` passer ikke sammen, for `dobbel` returnerer en `int` mens `lengde` forventer en `string`! Det er på en måte opplagt: du kan kalle `dobbel` på resultatet til `lengde`, men ikke `lengde` på resultatet av `dobbel`.
 
-Ellers passer `lengde` og `mye` sammen, og det samme gjør `dobbel` og `mye`. Vi kan lage en hel haug av funksjoner, med litt ulik oppførsel:
+Hvis du ser på returtyper og inputtyper vil du se at `lengde` og `mye` passer sammen, og det samme gjør `dobbel` og `mye`. Vi kan lage en hel haug av funksjoner, med litt ulik oppførsel:
 
 ```fsharp
 let lengde (s : string) : int = s.Length
