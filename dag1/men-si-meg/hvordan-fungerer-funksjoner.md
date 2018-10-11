@@ -11,13 +11,13 @@ let add = (+)
 
 I F# har alle funksjoner én inputparameter og én returverdi. Dette er annerledes enn i C#, der metoder har en parameter-liste som kan inneholde `0` til `n` parametre. 
 
-Alle variantene av `add` over tar en inputparameter av typen `int` og returnerer en funksjon av typen `int -> int`. Syntaksen som lar oss skrive `let add x y = x + y` er bare en konsis måte å skrive det ekvivalente `let add = fun x -> fun y -> x + y`. Den "sukkerfrie" måten å skrive det på viser at vi egentlig gjør to ting: vi skriver et uttrykk som angir en funksjonsverdi (`fun x -> fun y -> x + y`) og vi binder et navn (`add`) til det uttrykket. 
+Alle variantene av `add` over tar en inputparameter av typen `int` og returnerer en funksjon av typen `int -> int`. Syntaksen som lar oss skrive `let add x y = x + y` er bare en konsis måte å skrive det ekvivalente `let add = fun x -> fun y -> x + y` på. Den "sukkerfrie" måten å skrive det på viser at vi egentlig gjør to ting: vi skriver et uttrykk som angir en funksjonsverdi (`fun x -> fun y -> x + y`) og vi binder et navn (`add`) til det uttrykket. 
 
 # Partial application 
 
 Man kan tenke på det som at `add` "logisk sett" har to parametre, men at man kan gi parametrene en og en. Noen ganger er det hensiktsmessig å gi inn bare den første verdien til `add`. Dette kalles "partial application", fordi vi ikke gjør en "full" evaluering av `add`. Vi er liksom ikke "ferdige". 
 
-Hvis vi gir ett heltall (og ikke to) til `add` får vi ikke en heltallsverdi men en ny funksjon som vi kan gjøre hva vi vil med. Vi kan evaluere den (hvis vi gir den et heltall til), men vi kan også navngi den, sende den til andre funksjoner osv osv. 
+Hvis vi gir ett heltall (og ikke to) til `add` får vi ikke en heltallsverdi men en ny funksjonsverdi som vi kan gjøre hva vi vil med. Vi kan evaluere den (hvis vi gir den et heltall til), men vi kan også navngi den, sende den til andre funksjoner osv osv. 
 
 Her er et eksempel på at vi navngir den:
 
@@ -26,6 +26,22 @@ let inc = add 1
 ```
 
 Dette gir oss altså en ny funksjon `inc` med type `int -> int`. Hvis vi gir `inc` et heltall får vi som svar et tall som er `1` større enn heltallet vi ga inn. 
+
+Her er et eksempel på at vi gir den til en annen funksjon:
+
+```fsharp
+[1 .. 5] |> List.map (add 1)
+```
+
+Kan du gjette hva output blir?
+
+Og her er et eksempel på at vi evaluerer den direkte:
+
+```fsharp
+add 1 2
+```
+
+Oj, det var bare det mest alminnelige use caset, det! Lett!
 
 Definisjonen av `inc` som bruker partial application av `add` er helt ekvivalent med følgende kode:
 
