@@ -3,7 +3,7 @@ let square x = x * x
 
 
 // Funksjonen  mult ganger x med n
-// Kan du skrive funksjonen uten x?
+// Kan du skrive funksjonen uten x, sånn at man heller kan gi inn x senere?
 let mult n x = n * x
 
 // areaOfDoubled finner arelet av et kvadrat som har sidelengde 2 * x 
