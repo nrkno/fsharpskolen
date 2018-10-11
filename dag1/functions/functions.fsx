@@ -30,7 +30,7 @@ let replace (x : char) (y : int) ( str : string) = ""
 // e -> 3
 // i -> 1
 // o -> 0
-// funksjonen kan igjen skrives uten inputparameter
+// funksjonen leetify kan igjen skrives uten inputparameter
 // hadde det samme vært mulig om string ikke hadde vært siste parameter i replace?
 let leetify = ""
 
