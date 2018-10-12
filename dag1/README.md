@@ -1,10 +1,9 @@
 # Dag 1
 
 ## En slags agenda
-* Funksjoner 
+* Funksjoner - [oppgaver](functions)
 * Rekursjon
-* Lister
+* Lister - [oppgaver](lister)
 * Options
 * Discriminated unions
 * Records
-* DDD
