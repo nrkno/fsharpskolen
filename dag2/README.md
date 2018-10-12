@@ -2,7 +2,7 @@
 
 ## En slags agenda
 * Funksjoner 
-* Rekursjon - [oppgaver](recursion)
+* Rekursjon - [oppgaver](recursion), [nøtt](functions)
 * Lister - [oppgaver](lister)
 * Options - [oppgaver](options)
 * Discriminated unions - [oppgaver](discriminatedUnions)
