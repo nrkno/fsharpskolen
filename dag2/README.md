@@ -1,8 +1,8 @@
 # Dag 2
 
 ## En slags agenda
-* Funksjoner - [oppgaver](functions)
-* Rekursjon - [oppgaver](recurision)
+* Funksjoner 
+* Rekursjon - [oppgaver](recursion)
 * Lister - [oppgaver](lister)
 * Options - [oppgaver](options)
 * Discriminated unions - [oppgaver](discriminatedUnions)
