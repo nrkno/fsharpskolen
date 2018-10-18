@@ -10,6 +10,7 @@ module String =
         Seq.fold (fun result c -> string(c) + result) "" s
    
 "hello world" 
-|> String.substring 1 9 
-|> String.crop 4 
-|> String.reverse
+|> String.substring 1 9     // ello worl
+|> String.crop 4            // ello
+|> String.reverse           // olle
+|> printfn "%s"
