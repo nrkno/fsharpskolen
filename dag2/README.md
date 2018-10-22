@@ -52,8 +52,51 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 ---
 
 # Bygge domenet ved å sette sammen typer
+Eksempel fra boka
 
-kredittkorteksempelet fra Wlaschin
+```fsharp
+type PhoneNumber = PhoneNumber of int
+type CardNumber = CardNumber of string
+```
+
+```fsharp
+type CardType = Visa | MasterCard
+```
+
+```fsharp
+type CreditCardInfo = {
+    CardType: CardType
+    CardNumber: CardNumber
+}
+```
+
+---
+
+# Bygge domenet del 2
+
+```fsharp
+type PaymentMethod = 
+| Cash
+| Vipps of PhoneNumber
+| Card of CreditCardInfo
+```
+
+```fsharp
+type PaymentAmount = PaymentAmount of decimal
+type Currency = NOK | EUR
+```
+
+```fsharp
+type Payment = {
+    Amount: PaymentAmount
+    Currency: Currency
+    Method: PaymentMethod
+}
+```
+
+```fsharp
+type PayInvoice = UnpaidInvoice -> Payment -> PaidInvoice
+```
 
 ---
 
@@ -61,7 +104,7 @@ kredittkorteksempelet fra Wlaschin
 
 * Enkle verdier
 * Kombinasjoner av verdier med records
-* Valg av verider med DU
+* Valg av verdier med DU
 * Workflows
 
 
