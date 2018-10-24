@@ -35,15 +35,26 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 
 # Discriminated unions og pattern matching
 
-- finne eksempel
+```fsharp
+```
 ---
 
 # Records
-- eksempel
+
+```fsharp
+```
 ---
 
 # Moduler
-- forklare litt
+* Dele programmet i komponenter
+* Lage gode abstraksjoner
+* Skjule implementasjonsdetaljer
+
+```fsharp
+module MittProgram
+  module EnFinModul = 
+        let add1 = (+) 1
+```
 ---
 
 # Bygge domenet fra enkle typer
