@@ -50,6 +50,13 @@ let area shape =
 type Result<'a, 'err> = 
 | Ok of 'a
 | Error of 'err
+
+type Response = { Status: int; Content: string }
+
+let validate response = 
+    if response.Status = 200 
+    then Ok response.Content
+    else Error "Henting av data feilet"
 ```
 ---
 
