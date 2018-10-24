@@ -7,14 +7,12 @@
 
 # En slags agenda
 * Lister - [oppgaver](lister)
-* Pattern matching - [oppgaver](pattern-matching)
-* Discriminated unions - [oppgaver](discriminatedUnions)
+* Discriminated unions and Pattern matching - [oppgaver](pattern-matching)
 * Records - [oppgaver](records)
 * Moduler og innkapsling - [eksempler](modules)
 * DDD
 
 ---
-
 # Oppvarming
 ## Oppgaven intersperse-list
 * Lag funksjonen 'intersperse
@@ -37,14 +35,15 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 
 # Discriminated unions og pattern matching
 
+- finne eksempel
 ---
 
 # Records
-
+- eksempel
 ---
 
 # Moduler
-
+- forklare litt
 ---
 
 # DDD
