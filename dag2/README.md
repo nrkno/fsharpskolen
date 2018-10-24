@@ -36,6 +36,20 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 # Discriminated unions og pattern matching
 
 ```fsharp
+type Shape =
+| Square of float * float
+| Circle of float
+
+let area shape = 
+    match shape with
+    | Square (length, height) -> length * height
+    | Circle radius  -> Math.PI * radius * radius
+```
+
+```fsharp
+type Result<'a, 'err> = 
+| Ok of 'a
+| Error of 'err
 ```
 ---
 
