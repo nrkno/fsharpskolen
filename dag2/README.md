@@ -56,7 +56,23 @@ type Result<'a, 'err> =
 # Records
 
 ```fsharp
+type Circle = {
+    Center: float * float
+    Radius: float
+}
 ```
+
+```fsharp
+let { Center = (c1, c2); Radius = r } = circle 
+```
+
+```fsharp
+let isUnitCircle circle =
+    match circle with
+    | { Radius = 1.0 } -> true
+    | _ -> false
+```
+
 ---
 
 # Moduler
@@ -126,7 +142,3 @@ type PayInvoice = UnpaidInvoice -> Payment -> PaidInvoice
 * Kombinasjoner av verdier med records
 * Valg av verdier med discriminated unions
 * Workflows
-
-
-```fsharp
-```
