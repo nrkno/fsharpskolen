@@ -46,11 +46,7 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 - forklare litt
 ---
 
-# DDD
-
----
-
-# Bygge domenet ved å sette sammen typer
+# Bygge domenet fra enkle typer
 Eksempel fra boka
 
 ```fsharp
@@ -99,11 +95,11 @@ type PayInvoice = UnpaidInvoice -> Payment -> PaidInvoice
 
 ---
 
-# Patterns
+# Se mønstre i domenemodellen
 
 * Enkle verdier
 * Kombinasjoner av verdier med records
-* Valg av verdier med DU
+* Valg av verdier med discriminated unions
 * Workflows
 
 
