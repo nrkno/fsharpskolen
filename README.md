@@ -2,3 +2,4 @@
 
 * [Dag 1](dag1/README.md)
 * [Dag 2](dag2/README.md)
+* [Dag 3](dag3/README.md)
