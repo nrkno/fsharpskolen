@@ -24,9 +24,9 @@ let subtract (v1 : Vector) (v2 : Vector) : Vector = v1
 let scale (f : float) (v : Vector) : Vector = v
 
 // Eksempler:
-// scale 2 { x = 1.0; y = 3.0 } -> { x = 2.0; y = 6.0 } 
+// scale 2.0 { x = 1.0; y = 3.0 } -> { x = 2.0; y = 6.0 } 
 // scale 0.5 { x = 1.0; y = 3.0 } -> { x = 0.5; y = 1.5 } 
-// scale 1 { x = 1.0; y = 3.0 } -> { x = 1.0; y = 3.0 } 
+// scale 1.0 { x = 1.0; y = 3.0 } -> { x = 1.0; y = 3.0 } 
 
 let length (v : Vector) : float = 0.0
 
