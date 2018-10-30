@@ -37,12 +37,12 @@ intersperse [] [ []; []; [] ] -> [ []; []; []; []; [] ]
 
 ```fsharp
 type Shape =
-| Square of float * float
+| Rectangle of float * float
 | Circle of float
 
 let area shape = 
     match shape with
-    | Square (length, height) -> length * height
+    | Rectangle (length, height) -> length * height
     | Circle radius  -> Math.PI * radius * radius
 ```
 
