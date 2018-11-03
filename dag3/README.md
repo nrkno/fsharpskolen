@@ -6,7 +6,8 @@
 ---
 
 # En slags agenda
-* Discriminated unions - [oppgaver](discriminated-unions)
+* Kort intro til DDD
+* Et ekte domene - [oppgaver](ddd)
 
 ---
 
