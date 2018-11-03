@@ -1,6 +1,6 @@
 <!-- class: center, middle -->
 
 # Fsharpskolen
-## Dag 3
+## Dag 4
 
 ---
