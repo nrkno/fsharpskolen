@@ -7,6 +7,10 @@
 
 # En slags agenda
 * Kort intro til DDD
+* Test xunit?
+* prosjekt/paket?
+* validering?
+* lage program?
 * Et ekte domene - [oppgaver](ddd)
 
 ---
