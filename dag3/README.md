@@ -15,6 +15,15 @@
 
 ---
 
+# DDD
+* Ubiquitous language
+* Bounded context
+* Context maps
+* Context vs domene
+* Value objects, entities og aggregater
+
+---
+
 # Bygge domenet fra enkle typer
 Eksempel fra boka
 
