@@ -12,7 +12,7 @@
 * ProgId - [progId](progid)
 * Hva er et program, i hvilken kontekst?
 * Et ekte domene - [oppgaver](ddd)
-* Et F#-prosjekt
+* Et F#-prosjekt - [project](project)
 
 ---
 
