@@ -9,7 +9,7 @@
 * Kort intro til DDD
 * Bygge domenet fra enkle typer
 * Moduleksempel
-* ProgId [progId](progid)
+* ProgId - [progId](progid)
 * Hva er et program, i hvilken kontekst?
 * Et ekte domene - [oppgaver](ddd)
 * Et F#-prosjekt
@@ -100,7 +100,7 @@ module Antall =
 
 # ProgId
 
-* Strenger er sekvenser Seq
+* Strenger er sekvenser - Seq
 * Char.IsDigit/IsLetter
 
 ---
