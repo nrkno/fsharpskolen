@@ -7,11 +7,15 @@
 
 # En slags agenda
 * Kort intro til DDD
-* Test xunit?
-* prosjekt/paket?
-* validering?
-* lage program?
+* Bygge domenet fra enkle typer
+* Moduleksempel
+* ProgId 
+* Hva er et program, i hvilken kontekst?
 * Et ekte domene - [oppgaver](ddd)
+* prosjekt/paket?
+* Test xunit?
+* validering?
+
 
 ---
 
