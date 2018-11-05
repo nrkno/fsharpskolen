@@ -108,3 +108,14 @@ module Antall =
 # Hva er vel et program?
 
 ---
+
+# Contributors and usage rights
+
+---
+
+# F#-prosjekt
+
+* Filer og rekkefølge
+* Fake
+* Paket
+* Testing
