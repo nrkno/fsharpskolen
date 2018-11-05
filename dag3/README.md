@@ -9,13 +9,10 @@
 * Kort intro til DDD
 * Bygge domenet fra enkle typer
 * Moduleksempel
-* ProgId 
+* ProgId - [progId](progid)
 * Hva er et program, i hvilken kontekst?
 * Et ekte domene - [oppgaver](ddd)
-* prosjekt/paket?
-* Test xunit?
-* validering?
-
+* Et F#-prosjekt
 
 ---
 
@@ -84,3 +81,30 @@ type PayInvoice = UnpaidInvoice -> Payment -> PaidInvoice
 * Valg av verdier med discriminated unions
 * Workflows
 
+---
+
+# Moduleksempelet 
+## Smart constructor approach
+
+```fsharp
+type Antall = private Antall of int
+
+module Antall = 
+   let create antall = 
+      if antall < 0 then 
+         raise (ArgumentException "Ugyldig antall")
+      else Antall antall
+```
+
+---
+
+# ProgId
+
+* Strenger er sekvenser - Seq
+* Char.IsDigit/IsLetter
+
+---
+
+# Hva er vel et program?
+
+---
