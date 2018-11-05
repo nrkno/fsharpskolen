@@ -17,6 +17,6 @@ let ``En pluss en er to``() =
 ```
 Skriv en test i testfila, og se at du kan kjøre en fra IDEen din. Endre på asserten så testen feiler, og prøv å kjøre den på nytt.
 
-Nå kan du kopiere over koden du skrev i stad for Contributors over til ConsoleApp-prosjektet, og 
+Nå kan du kopiere over koden du skrev i stad for Contributors over til ConsoleApp-prosjektet, og fortsette med å skrive noen tester for å verifsere at koden fungerer som forventet. Prøv å bruke ulike Assert-typer, feks å asserte at funksjonen kaster exception.
 
-Mer om Xunit kan du lese [her](https://xunit.github.io/docs/getting-started-desktop).
+
