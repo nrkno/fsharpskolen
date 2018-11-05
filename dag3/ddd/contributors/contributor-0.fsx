@@ -1,6 +1,5 @@
 open System
 
-
 type Contributor = 
     { role : string
       name : string 
@@ -17,9 +16,6 @@ let ensureValidRole (s : string) =
     else if s.Length = 0 then raise (ArgumentException("s"))
     else s
 
-let createContributor role name givenName familyName = 
-  ()
-
 let contributor1 = 
     { role = ensureValidRole "Vert" 
       name = ensureValidName "Vemund" 
@@ -33,21 +29,19 @@ let contributor2 =
       familyName = Some <| ensureValidName "Stiansen" }
 
 let contributor3 = 
-    { role = createValidRole "Medvirkende barn" 
-      name = createValidName "Oda (5)" 
-      givenName = Some <| createValidName "Oda"
-      familyName = Some <| createValidName "Olaussen" }
+    { role = ensureValidRole "Medvirkende barn" 
+      name = ensureValidName "Oda (5)" 
+      givenName = Some <| ensureValidName "Oda"
+      familyName = Some <| ensureValidName "Olaussen" }
 
 let contributor4 = 
-    { role = createValidRole "anonym" 
-      name = createValidName "NN" 
+    { role = ensureValidRole "anonym" 
+      name = ensureValidName "NN" 
       givenName = None
       familyName = None }
       
 let blockContributor (c : Contributor) = 
-    match c.role with 
-    | Role roleStr -> 
-      roleStr.Contains("barn") || roleStr.Contains("anonym")
+    c.role.Contains("barn") || c.role.Contains("anonym")
 
 contributor1 |> printfn "%A"
 contributor2 |> printfn "%A"
