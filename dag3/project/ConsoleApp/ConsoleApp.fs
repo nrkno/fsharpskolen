@@ -1,4 +1,4 @@
-module ConsoleApp
+module ConsoleApp.Main
 
 [<EntryPoint>]
 let main argv =
