@@ -5,10 +5,17 @@ open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
+
+open ProgramApi.Dto
+
+let programHandler id = 
+    let program = { ProgId = id }
+    json program
+
 let webApp =
     choose [
         GET >=> choose [
-            route "/person" >=> text "person"
+            routef "/program/%s" programHandler
         ]
         route "/ping"   >=> text "pong"
         route "/"       >=> text "Hei!" ]
