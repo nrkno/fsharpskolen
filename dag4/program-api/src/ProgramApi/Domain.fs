@@ -9,10 +9,14 @@ type ProgramTitle = ProgramTitle of string
 
 type ProgramDescription = ProgramDescription of string 
 
+type Role = Role of string 
+
+type Name = Name of string 
+
 type Contributor = 
     {
-        Role : string 
-        Name : string 
+        Role : Role 
+        Name : Name 
     }
 
 type Rating = 
@@ -92,7 +96,7 @@ type UsageRightsDuration =
     | Perpetual 
     | Since of LocalDate 
     | Until of LocalDate
-    | Interval of UsageRightsInterval 
+    | Between of UsageRightsInterval 
 
 type UsageRights = 
     {

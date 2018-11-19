@@ -8,9 +8,20 @@ open Giraffe
 
 open ProgramApi.Dto
 
-let programHandler id = 
-    let program = { ProgId = id }
-    json program
+let tryProgramHandler id : Result<string, string> = 
+    Error "not implemented yet, should be some kind of lookup"
+    //let program = { 
+    //    ProgId = id 
+    //    Title = 
+    //}
+    //json program
+
+type dummyResult = { result : string }
+
+let programHandler id  = 
+    match tryProgramHandler id with 
+    | Ok _ -> json <| { result = "ok!" }
+    | Error e -> json <| { result = e }
 
 let webApp =
     choose [
