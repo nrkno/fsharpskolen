@@ -7,21 +7,18 @@ open Microsoft.Extensions.DependencyInjection
 open Giraffe
 
 open ProgramApi.Dto
+open ProgramApi.Lookup
 
-let tryProgramHandler id : Result<string, string> = 
-    Error "not implemented yet, should be some kind of lookup"
-    //let program = { 
-    //    ProgId = id 
-    //    Title = 
-    //}
-    //json program
+let tryProgramHandler id : Result<Program, string> = 
+    find id |> Result.map Program.fromDomainProgram
 
-type dummyResult = { result : string }
+type errorResult = { wrong : string }
 
 let programHandler id  = 
-    match tryProgramHandler id with 
-    | Ok _ -> json <| { result = "ok!" }
-    | Error e -> json <| { result = e }
+    let result = tryProgramHandler id 
+    match result with 
+    | Ok p -> json p 
+    | Error e -> json { wrong = e }
 
 let webApp =
     choose [
