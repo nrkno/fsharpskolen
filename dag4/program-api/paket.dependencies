@@ -8,6 +8,7 @@ nuget Giraffe 3.4.0
 nuget Microsoft.AspNetCore.App 2.1.5
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.1
+nuget NodaTime
 
 group Build
 source https://www.nuget.org/api/v2

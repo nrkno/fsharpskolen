@@ -5,7 +5,13 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ProgramApi", "src\ProgramApi\ProgramApi.fsproj", "{430B2197-E0A8-49F6-BE4C-F76A72E498E8}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProgramApiTests", "tests\ProgramApiTests\ProgramApiTests.fsproj", "{276B89CE-0F5B-4481-9EDC-07D62F28B115}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ProgramApiTests", "tests\ProgramApiTests\ProgramApiTests.fsproj", "{276B89CE-0F5B-4481-9EDC-07D62F28B115}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{524DC056-820E-4659-A505-3C1618E296FC}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

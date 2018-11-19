@@ -883,6 +883,7 @@ NUGET
     Newtonsoft.Json.Bson (1.0.1)
       NETStandard.Library (>= 1.6.1)
       Newtonsoft.Json (>= 10.0.1)
+    NodaTime (2.4.2)
     Remotion.Linq (2.2)
       System.Collections (>= 4.0.11)
       System.Diagnostics.Debug (>= 4.0.11)
