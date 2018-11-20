@@ -1,0 +1,13 @@
+{
+  "Id" : "NNFA19020315",
+  "Manifest" : "https://dummy.cdn.no/hls/nnfa19020315/playlist.m3u8",
+  "StreamFormat" : "HLS",
+  "Subtitles" : "https://blablabla.text.no/TTV/NNFA19020315.vtt",
+  "SubtitlesFormat" : "WebVTT",
+  "Language" : "No",
+  "UsageRights" : {
+    "GeoBlocked" : false,
+    "FromUtc" : "2015-02-03T18:00:00Z",
+    "ToUtc" : "9999-12-30T23:00:00Z"
+  }
+}
