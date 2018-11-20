@@ -80,7 +80,7 @@ module TransmissionsRepository =
     type TransmissionsError = TransmissionsNotFound of string
 
     let getManifest (id : string) : Result<ManifestData, TransmissionsError> = 
-        let filePath = id |> sprintf "%s-program-metadata.json" |> getFilePath 
+        let filePath = id |> sprintf "%s-program-transmissions.json" |> getFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<ManifestData>(fileContent)
