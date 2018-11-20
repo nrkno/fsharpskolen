@@ -24,3 +24,11 @@
 * Håndtere avhengigheter - composition root
 * Kjede Result<'t, 'error>
 * Serialisering av domeneobjekter
+
+# Oppgaver
+
+* Hente manifest med http 
+  * legge inn avhengighet til http klient i paket
+  * ta i bruk webserveren
+
+-----
