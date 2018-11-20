@@ -28,7 +28,7 @@
 # Oppgaver
 
 * Hente manifest med http 
-** legge inn avhengighet til http klient i paket
-** ta i bruk webserveren
+  * legge inn avhengighet til http klient i paket
+  * ta i bruk webserveren
 
 -----
