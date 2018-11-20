@@ -1,0 +1,12 @@
+{
+  "Id" : "DKMR50000413",
+  "ProgramTransmissions" : 
+  [
+    {
+      "Channel" : "nrk1",
+      "EpgDate" : "2014-11-16",
+      "StartTime" : "2014-11-16T19:15:56Z",
+      "EndTime" : "2014-11-16T19:46:27Z"
+    }
+  ] 
+}

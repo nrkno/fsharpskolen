@@ -5,12 +5,17 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="files\metadata\DKMR50000413-program-metadata.json" />
+    <Content Include="files\transmissions\DKMR50000413-program-transmissions.json" />
+    <Content Include="files\manifests\DKMR50000413-program-manifest.json" />
     <None Include="paket.references" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Data.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Json.fs" />
     <Compile Include="Lookup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
