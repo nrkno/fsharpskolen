@@ -58,6 +58,6 @@ let programs = [
 
 let find (id : string) : Result<Program, string> = 
     match List.tryFind (fun (p : Program) -> p.ProgId = ProgId id) programs with 
-    | None -> Error <| sprintf "Program %s not found." id
+    | None -> Error (sprintf "Program %s not found." id)
     | Some p -> Ok p
 

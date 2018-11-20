@@ -1,38 +1,89 @@
 ﻿module ProgramApi.Data
 
-open NodaTime
-open NodaTime.Text
+open System
+open System.IO
+open System.Reflection
 
-type ContributorDto = {
-    Role : string 
-    Name : string 
+type UsageRightsData = {
+    GeoBlocked : bool 
+    FromUtc : string 
+    ToUtc : string 
 }
 
-type LegalAgeDto = {
-    Code : string 
-    Description : string
-    Label : string
+type ManifestData = {
+    Id : string 
+    Manifest : string 
+    StreamFormat : string 
+    Subtitles : string 
+    SubtitlesFormat : string 
+    Language : string 
+    UsageRights : UsageRightsData 
 }
 
-type TransmissionDto = {
-    Channel : string
-    EpgDate : string
-    StartTime : string
+type TransmissionData = {
+    Channel : string 
+    EpgDate : string 
+    StartTime : string 
     EndTime : string
 }
 
-type PlayableDto = {
-    Manifest : string 
-    Subtitles : string 
+type TransmissionsData = {
+    Id : string 
+    ProgramTransmissions : TransmissionData list 
 }
 
-type IndexPointDto = {
-    StartPoint : string 
+type MetadataData = {  // :-)
+    Id : string 
     Title : string 
+    Description : string 
+    Rated : string 
+    Duration : string
 }
 
-type PlaybackElementDto = {
-    Playable : PlayableDto  
-    Duration : string 
-    IndexPoints : IndexPointDto list 
-}
+let assemblyDirectory = 
+    let codebase = Assembly.GetExecutingAssembly().CodeBase
+    let uriBuilder = UriBuilder(codebase)
+    let path = Uri.UnescapeDataString(uriBuilder.Path)
+    Path.GetDirectoryName(path)
+
+let getFilePath (filename : string) : string = 
+    Path.Combine(assemblyDirectory, filename)
+
+module ManifestRepository = 
+
+    type ManifestError = ManifestNotFound of string
+
+    let getManifest (id : string) : Result<ManifestData, ManifestError> = 
+        let filePath = id |> sprintf "%s-program-manifest.json" |> getFilePath 
+        if File.Exists(filePath) then 
+            let fileContent = File.ReadAllText(filePath)
+            let data = Json.deserialize<ManifestData>(fileContent)
+            Ok data 
+        else 
+            Error (ManifestNotFound id)
+
+module MetadataRepository = 
+
+    type MetadataError = MetadataNotFound of string
+
+    let getManifest (id : string) : Result<ManifestData, MetadataError> = 
+        let filePath = id |> sprintf "%s-program-metadata.json" |> getFilePath 
+        if File.Exists(filePath) then 
+            let fileContent = File.ReadAllText(filePath)
+            let data = Json.deserialize<ManifestData>(fileContent)
+            Ok data 
+        else 
+            Error (MetadataNotFound id)
+
+module TransmissionsRepository = 
+
+    type TransmissionsError = TransmissionsNotFound of string
+
+    let getManifest (id : string) : Result<ManifestData, TransmissionsError> = 
+        let filePath = id |> sprintf "%s-program-metadata.json" |> getFilePath 
+        if File.Exists(filePath) then 
+            let fileContent = File.ReadAllText(filePath)
+            let data = Json.deserialize<ManifestData>(fileContent)
+            Ok data 
+        else 
+            Error (TransmissionsNotFound id)
