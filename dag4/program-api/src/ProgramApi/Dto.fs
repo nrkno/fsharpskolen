@@ -99,10 +99,11 @@ module Program =
         match usageRights with 
         | { Region = _; Duration = usageRightsDuration } ->
           match usageRightsDuration with 
-          | Domain.Perpetual -> true
-          | Domain.Since since -> now >= since 
-          | Domain.Until until -> now <= until 
-          | Domain.Between { RightsStart = start; RightsExpire = expire } ->
+          | Domain.NoUsageRights -> false
+          | Domain.PerpetualUsageRights -> true
+          | Domain.UsageRightsSince since -> now >= since 
+          | Domain.UsageRightsUntil until -> now <= until 
+          | Domain.UsageRightsBetween { RightsStart = start; RightsExpire = expire } ->
             start <= now && now <= expire
 
     let fromDomainPlayable (playable : Domain.Playable) : PlayableDto = 

@@ -17,6 +17,7 @@ type ManifestData = {
     Subtitles : string 
     SubtitlesFormat : string 
     Language : string 
+    Duration : string
     UsageRights : UsageRightsData 
 }
 
@@ -51,39 +52,34 @@ let getFilePath (filename : string) : string =
 
 module ManifestRepository = 
 
-    type ManifestError = ManifestNotFound of string
-
-    let getManifest (id : string) : Result<ManifestData, ManifestError> = 
+    let getManifest (id : string) : Result<ManifestData, string> = 
         let filePath = id |> sprintf "%s-program-manifest.json" |> getFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<ManifestData>(fileContent)
             Ok data 
         else 
-            Error (ManifestNotFound id)
+            Error (sprintf "Not found: %s" id)
 
 module MetadataRepository = 
 
-    type MetadataError = MetadataNotFound of string
-
-    let getManifest (id : string) : Result<ManifestData, MetadataError> = 
+    let getMetadata (id : string) : Result<MetadataData, string> = 
         let filePath = id |> sprintf "%s-program-metadata.json" |> getFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
-            let data = Json.deserialize<ManifestData>(fileContent)
+            let data = Json.deserialize<MetadataData>(fileContent)
             Ok data 
         else 
-            Error (MetadataNotFound id)
+            Error (sprintf "Not found: %s" id)
 
 module TransmissionsRepository = 
 
-    type TransmissionsError = TransmissionsNotFound of string
-
-    let getManifest (id : string) : Result<ManifestData, TransmissionsError> = 
+    let getTransmissions (id : string) : Result<TransmissionsData, string> = 
         let filePath = id |> sprintf "%s-program-transmissions.json" |> getFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
-            let data = Json.deserialize<ManifestData>(fileContent)
+            let data = Json.deserialize<TransmissionsData>(fileContent)
             Ok data 
         else 
-            Error (TransmissionsNotFound id)
+            Error (sprintf "Not found: %s" id)
+

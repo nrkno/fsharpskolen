@@ -45,7 +45,7 @@ let program1 = {
         }
         UsageRights = {
             Region = World 
-            Duration = Since <| toLocalDate "2014-11-16T19:15:00Z" 
+            Duration = UsageRightsSince <| toLocalDate "2014-11-16T19:15:00Z" 
         }
         ActualDuration = Duration.FromTimeSpan(TimeSpan(00, 29, 11)) 
         IndexPoints = []
