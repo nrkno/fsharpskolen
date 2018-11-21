@@ -47,8 +47,7 @@ let assemblyDirectory =
     let path = Uri.UnescapeDataString(uriBuilder.Path)
     Path.GetDirectoryName(path)
 
-let combinePath path1 path2 = 
-    Path.Combine(path1, path2)
+let combinePath path1 path2 = Path.Combine(path1, path2)
 
 let filesPath = combinePath assemblyDirectory "files"
 

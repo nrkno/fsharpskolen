@@ -1,0 +1,14 @@
+{
+    "Id": "MYNT15200716",
+    "Manifest": "https://dummy.cdn.no/hls/mynt15200716/playlist.m3u8",
+    "StreamFormat": "HLS",
+    "Subtitles": "https://blablabla.text.no/TTV/MYNT15200716.vtt",
+    "SubtitlesFormat": "WebVTT",
+    "Language": "No",
+    "Duration": "00:29:11",
+    "UsageRights": {
+        "GeoBlocked": true,
+        "FromUtc": "2016-11-25T19:20:00Z",
+        "ToUtc": "9999-12-30T23:00:00Z"
+    }
+}
