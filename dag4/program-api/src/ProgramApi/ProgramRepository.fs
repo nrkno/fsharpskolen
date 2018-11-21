@@ -59,28 +59,26 @@ let getUsageRightsDuration (fromDate : LocalDate) (toDate : LocalDate)
                 UsageRightsBetween { RightsStart = fromDate; RightsExpire = toDate }
 
 let toUsageRights (data : UsageRightsData) : Result<UsageRights, string> = 
-    let readBlocked (d : UsageRightsData) 
-        : Result<UsageRightsData * bool, string> = 
-        Ok (d, d.GeoBlocked)
-    let readFromUtc (d : UsageRightsData, blocked : bool) 
-        : Result<UsageRightsData * bool * LocalDate, string> = 
-        toInstant d.FromUtc
+    let readLocalDateFromInstant (utcStr : string) = 
+        toInstant utcStr
         |> Result.map (fun instant -> instant.InUtc().LocalDateTime.Date)
-        |> Result.map (fun date -> (data, blocked, date))
-    let readToUtc (d : UsageRightsData, blocked : bool, fromDate : LocalDate)
+    let readFromUtc (utcStr : string) (blocked : bool) 
+        : Result<bool * LocalDate, string> = 
+        readLocalDateFromInstant utcStr
+        |> Result.map (fun date -> (blocked, date))
+    let readToUtc (utcStr : string) (blocked : bool, fromDate : LocalDate)
         : Result<bool * LocalDate * LocalDate, string> = 
-        toInstant d.ToUtc
-        |> Result.map (fun instant -> instant.InUtc().LocalDateTime.Date)
+        readLocalDateFromInstant utcStr
         |> Result.map (fun date -> (blocked, fromDate, date))
     let toRights (blocked : bool, fromDate : LocalDate, toDate : LocalDate) 
         : Result<UsageRights, string> = 
         let region = if blocked then Norway else World
         let duration = getUsageRightsDuration fromDate toDate
         Ok { Region = region; Duration = duration }
-    data
-    |> readBlocked
-    |> Result.bind readFromUtc 
-    |> Result.bind readToUtc 
+
+    Ok data.GeoBlocked
+    |> Result.bind (readFromUtc data.FromUtc) 
+    |> Result.bind (readToUtc data.ToUtc)
     |> Result.bind toRights
 
 let toUri (s : string) : Result<Uri, string> = 
@@ -96,15 +94,15 @@ let toMediaFormat (s : string) : Result<MediaFormat, string> =
 let toManifest (manifestUrl : string) (streamingFormat : string) 
     : Result<Manifest, string> = 
 
-    let addStreamingFormat (url : Uri) : Result<Uri * MediaFormat, string> = 
-        toMediaFormat streamingFormat
+    let addStreamingFormat (formatStr : string) (url : Uri) : Result<Uri * MediaFormat, string> = 
+        toMediaFormat formatStr
         |> Result.map (fun f -> (url, f))
 
     let createManifest (url : Uri, format : MediaFormat) : Result<Manifest, string> = 
         Ok { Url = url; Format = format }
 
     toUri manifestUrl
-    |> Result.bind addStreamingFormat 
+    |> Result.bind (addStreamingFormat streamingFormat)
     |> Result.bind createManifest
 
 let toSubtitlesFormat (s : string) : Result<SubtitlesFormat, string> = 
@@ -120,13 +118,13 @@ let toLanguageCode (s : string) : Result<LanguageCode, string> =
 let toSubtitles (subtitlesUri : string) (subtitlesFormat : string) (languageCode : string)
     : Result<SubtitlesFile, string> =
 
-    let addSubtitlesFormat (url : Uri) : Result<Uri * SubtitlesFormat, string> = 
-        toSubtitlesFormat subtitlesFormat
+    let addSubtitlesFormat (formatStr : string) (url : Uri) : Result<Uri * SubtitlesFormat, string> = 
+        toSubtitlesFormat formatStr
         |> Result.map (fun format -> (url, format))
 
-    let addLanguageCode (url : Uri, format : SubtitlesFormat) 
+    let addLanguageCode (codeStr : string) (url : Uri, format : SubtitlesFormat) 
         : Result<Uri * SubtitlesFormat * LanguageCode, string> = 
-        toLanguageCode languageCode 
+        toLanguageCode codeStr
         |> Result.map (fun code -> (url, format, code))
 
     let createSubtitlesFile (url : Uri, format : SubtitlesFormat, code : LanguageCode) 
@@ -134,8 +132,8 @@ let toSubtitles (subtitlesUri : string) (subtitlesFormat : string) (languageCode
         Ok { Url = url; Format = format; Language = code }
     
     toUri subtitlesUri
-    |> Result.bind addSubtitlesFormat 
-    |> Result.bind addLanguageCode 
+    |> Result.bind (addSubtitlesFormat subtitlesFormat)
+    |> Result.bind (addLanguageCode languageCode)
     |> Result.bind createSubtitlesFile
 
 let toPlayable (data : ManifestData) : Result<Playable, string> = 
@@ -167,7 +165,6 @@ let toPlaybackElement (manifestData : ManifestData) : Result<PlaybackElement, st
              UsageRights = usageRights
              ActualDuration = duration 
              IndexPoints = [] }
-        
     
     toPlayable manifestData 
     |> Result.bind (addUsageRights manifestData.UsageRights)

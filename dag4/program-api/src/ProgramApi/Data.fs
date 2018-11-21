@@ -47,15 +47,16 @@ let assemblyDirectory =
     let path = Uri.UnescapeDataString(uriBuilder.Path)
     Path.GetDirectoryName(path)
 
-let getFilePath (filename : string) : string = 
-    Path.Combine(assemblyDirectory, Path.Combine("files", filename))
+let combinePath path1 path2 = 
+    Path.Combine(path1, path2)
+
+let filesPath = combinePath assemblyDirectory "files"
 
 module ManifestRepository = 
 
     let getManifest (id : string) : Result<ManifestData, string> = 
-        let getManifestFilePath fileName = 
-            Path.Combine("manifests", fileName) |> getFilePath
-        let filePath = id |> sprintf "%s-program-manifest.json" |> getManifestFilePath 
+        let manifestsPath = combinePath filesPath "manifests"
+        let filePath = id |> sprintf "%s-program-manifest.json" |> combinePath manifestsPath
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<ManifestData>(fileContent)
@@ -66,9 +67,8 @@ module ManifestRepository =
 module MetadataRepository = 
 
     let getMetadata (id : string) : Result<MetadataData, string> = 
-        let getMetadataFilePath fileName = 
-            Path.Combine("metadata", fileName) |> getFilePath
-        let filePath = id |> sprintf "%s-program-metadata.json" |> getMetadataFilePath 
+        let metadataPath = combinePath filesPath "metadata"
+        let filePath = id |> sprintf "%s-program-metadata.json" |> combinePath metadataPath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<MetadataData>(fileContent)
@@ -79,13 +79,11 @@ module MetadataRepository =
 module TransmissionsRepository = 
 
     let getTransmissions (id : string) : Result<TransmissionsData, string> = 
-        let getTransmissionsFilePath fileName = 
-            Path.Combine("transmissions", fileName) |> getFilePath
-        let filePath = id |> sprintf "%s-program-transmissions.json" |> getTransmissionsFilePath 
+        let transmissionsPath = combinePath filesPath "transmissions"
+        let filePath = id |> sprintf "%s-program-transmissions.json" |> combinePath transmissionsPath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<TransmissionsData>(fileContent)
             Ok data 
         else 
             Error (sprintf "Not found: %s [%s]" id filePath)
-

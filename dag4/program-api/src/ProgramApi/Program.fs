@@ -7,15 +7,13 @@ open Microsoft.Extensions.DependencyInjection
 open Giraffe
 
 open ProgramApi.Dto
-open ProgramApi.Lookup
-
-let tryProgramHandler id : Result<Program, string> = 
-    alsofind id |> Result.map Program.fromDomainProgram
+open ProgramApi.ProgramRepository
 
 type errorResult = { wrong : string }
 
 let programHandler id  = 
-    let result = tryProgramHandler id 
+    let program = findProgram id 
+    let result = program |> Result.map Program.fromDomainProgram
     match result with 
     | Ok p -> json p 
     | Error e -> json { wrong = e }
