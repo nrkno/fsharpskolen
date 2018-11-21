@@ -9,7 +9,6 @@ open ProgramApi.Domain
 open ProgramApi.Data
 open ProgramApi.Data.ManifestRepository
 open ProgramApi.Data.MetadataRepository
-open ProgramApi.Data.TransmissionsRepository
 
 let mapParseResult<'a> (parseResult : ParseResult<'a>) = 
     if parseResult.Success then Ok (parseResult.Value)
@@ -201,33 +200,16 @@ let toProgramMetadata (metadataData : MetadataData) : Result<ProgramMetadata, st
     |> Result.bind (addPlannedDuration metadataData.Duration)
     |> Result.bind (createProgramMetadata metadataData)
 
-let toTransmission (data : TransmissionData) : Result<Transmission, string> = 
-    let addEpgDate (s : string) (cid : ChannelId) 
-        : Result<ChannelId * LocalDate, string> = 
-        toLocalDate s 
-        |> Result.map (fun date -> (cid, date))
-    let addStartTime (s : string) (cid : ChannelId, epgDate : LocalDate) 
-        : Result<ChannelId * LocalDate * Instant, string> = 
-        toInstant s 
-        |> Result.map (fun startTime -> (cid, epgDate, startTime))
-    let addEndTime (s : string) (cid : ChannelId, epgDate : LocalDate, startTime : Instant)
-        : Result<ChannelId * LocalDate * Instant * Instant, string> = 
-        toInstant s 
-        |> Result.map (fun endTime -> (cid, epgDate, startTime, endTime))
-    let createTransmission (cid : ChannelId, epgDate : LocalDate, startTime : Instant, endTime : Instant)
-        : Result<Transmission, string> =
-        Ok { ChannelId = cid
-             EpgDate = epgDate 
-             ActualStartTime = startTime 
-             ActualEndTime = endTime }
+let rec combine (results : Result<'a, 'e> list)
+    : Result<'a list, 'e> = 
+    match results with 
+    | [] -> Ok []
+    | r :: rest -> 
+        match r with 
+        | Error s -> Error s 
+        | Ok t -> combine rest |> Result.bind (fun ts -> Ok (t :: ts))
 
-    Ok (ChannelId data.Channel)
-    |> Result.bind (addEpgDate data.EpgDate)
-    |> Result.bind (addStartTime data.StartTime)
-    |> Result.bind (addEndTime data.EndTime)
-    |> Result.bind createTransmission
-
-let toProgram (metadataData : MetadataData) (manifestData : ManifestData) (transmissionsData : TransmissionsData) 
+let toProgram (metadataData : MetadataData) (manifestData : ManifestData) 
     : Result<Program, string> =
     let addMetadata (data : MetadataData) (pid : ProgId)
         : Result<ProgId * ProgramMetadata, string> = 
@@ -237,31 +219,16 @@ let toProgram (metadataData : MetadataData) (manifestData : ManifestData) (trans
         : Result<ProgId * ProgramMetadata * PlaybackElement, string> =
         toPlaybackElement data 
         |> Result.map (fun playbackElement -> (pid, metadata, playbackElement))
-    let addTransmissions (data : TransmissionsData) (pid : ProgId, metadata : ProgramMetadata, playbackElement : PlaybackElement)
-        : Result<ProgId * ProgramMetadata * PlaybackElement * Transmission list, string> =
-        let rec combine (results : Result<'a, 'e> list)
-            : Result<'a list, 'e> = 
-            match results with 
-            | [] -> Ok []
-            | r :: rest -> 
-                match r with 
-                | Error s -> Error s 
-                | Ok t -> combine rest |> Result.bind (fun ts -> Ok (t :: ts))
-        data.ProgramTransmissions 
-        |> List.map toTransmission
-        |> combine
-        |> Result.map (fun ts -> (pid, metadata, playbackElement, ts))
-    let createProgram (pid : ProgId, metadata : ProgramMetadata, playbackElement : PlaybackElement, transmissions : Transmission list)
+    let createProgram (pid : ProgId, metadata : ProgramMetadata, playbackElement : PlaybackElement)
         : Result<Program, string> = 
         Ok { ProgId = pid 
              Metadata = metadata 
              PlaybackElement = playbackElement 
-             Transmissions = transmissions }
+             Transmissions = [] }
 
     Ok (ProgId metadataData.Id)
     |> Result.bind (addMetadata metadataData)
     |> Result.bind (addPlayable manifestData)
-    |> Result.bind (addTransmissions transmissionsData)
     |> Result.bind createProgram
 
 let findProgram (id : string) : Result<Program, string> = 
@@ -269,15 +236,10 @@ let findProgram (id : string) : Result<Program, string> =
         : Result<MetadataData * ManifestData, string> = 
         getManifest id 
         |> Result.map (fun manifest -> (metadata, manifest))
-    let addTransmissionsStep (id : string) (metadata : MetadataData, manifest : ManifestData) 
-        : Result<MetadataData * ManifestData * TransmissionsData, string> = 
-        getTransmissions id 
-        |> Result.map (fun transmissions -> (metadata, manifest, transmissions))
-    let toProgramStep (metadata : MetadataData, manifest : ManifestData, transmissions : TransmissionsData) 
+    let toProgramStep (metadata : MetadataData, manifest : ManifestData) 
         : Result<Program, string> = 
-        toProgram metadata manifest transmissions
+        toProgram metadata manifest
 
     getMetadata id
     |> Result.bind (addManifestStep id)
-    |> Result.bind (addTransmissionsStep id) 
     |> Result.bind toProgramStep

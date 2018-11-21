@@ -74,15 +74,3 @@ module MetadataRepository =
             Ok data 
         else 
             Error (sprintf "Not found: %s [%s]" id filePath)
-
-module TransmissionsRepository = 
-
-    let getTransmissions (id : string) : Result<TransmissionsData, string> = 
-        let transmissionsPath = combinePath filesPath "transmissions"
-        let filePath = id |> sprintf "%s-program-transmissions.json" |> combinePath transmissionsPath 
-        if File.Exists(filePath) then 
-            let fileContent = File.ReadAllText(filePath)
-            let data = Json.deserialize<TransmissionsData>(fileContent)
-            Ok data 
-        else 
-            Error (sprintf "Not found: %s [%s]" id filePath)
