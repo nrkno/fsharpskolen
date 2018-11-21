@@ -4,9 +4,6 @@
 ## Dag 4
 
 ---
-# Workflows
-
----
 
 # Funksjoner
 
@@ -18,7 +15,14 @@
 
 ---
 
-# Teknikker
+# Repetisjon
+
+* Høyere ordens funksjoner, feks List.map
+* Result bind og map
+
+---
+
+# Teknikker fra boka
 
 * Funksjonsadaptere
 * Håndtere avhengigheter - composition root
