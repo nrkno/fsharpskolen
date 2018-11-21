@@ -26,9 +26,18 @@
 * Serialisering av domeneobjekter
 
 # Oppgaver
-
+* Bygg og kjør prosjektet og se at du får opp en webserver som svarer på `http://localhost:5000`
+* Oppdater koden så transmissions leses fra repository og kobles inn i data som leveres med program-endepunktet
+* Hvis man ser på json man får for et program kan man se at deserialisering av discriminated union ser rar ut, se om du kan fikse dette
 * Hente manifest med http 
-  * legge inn avhengighet til http klient i paket
-  * ta i bruk webserveren
+  * legge til avhengighet for en http-klient
+  * ta i bruk webserveren i prosjektet `manifest-server`
+* Legg på validering på `ProgId`og `Role`i domain, her kan du kanskje gjenbruke kode du skrev sist
+* Legg på validering på `Contributor` så bare gyldige contributors kommer med i lista (ikke barn eller anonyme)
+* Lag tester på mapping fra datamodell til domenemodell i testprosjektet
+
+## Mer avanserte oppgaver
+* Lag en compositional expression for `Result<'a, 'err>` så man slipper å kjede så mange `bind` sammen
+* Skriv om funksjonen `combine` slik at den blir enklere. Er det mulig å lage en slags `Result.fold`?
 
 -----
