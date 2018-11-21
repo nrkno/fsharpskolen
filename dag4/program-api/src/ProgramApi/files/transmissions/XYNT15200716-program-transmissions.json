@@ -1,0 +1,18 @@
+{
+    "Id" : "MYNT15200716",
+    "Transmissions" : 
+    [
+        {
+            "Channel" : "nrkw",
+            "EpgDate" : "2016-11-25",
+            "StartTime" : "2016-11-25T19:20:00Z",
+            "EndTime" : "2016-11-25T19:42:50Z"
+        },
+        {
+            "Channel" : "nrk3",
+            "EpgDate" : "2016-11-25",
+            "StartTime" : "2016-11-25T19:39:46Z",
+            "EndTime" : "2016-11-25T20:02:59Z"
+        }
+    ] 
+}

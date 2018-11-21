@@ -5,13 +5,19 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="files\manifests\DKMR50000413-program-manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="files\manifests\MYNT15200716-program-manifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="files\manifests\NNFA19020315-program-manifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="files\manifests\DKMR50000413-program-manifest.json">
+    <Content Include="files\manifests\XYNT15200716-program-manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\metadata\DKMR50000413-program-metadata.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="files\metadata\MYNT15200716-program-metadata.json">
@@ -20,14 +26,17 @@
     <Content Include="files\metadata\NNFA19020315-program-metadata.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="files\metadata\DKMR50000413-program-metadata.json">
+    <Content Include="files\metadata\XYNT15200716-program-metadata.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\transmissions\DKMR50000413-program-transmissions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="files\transmissions\MYNT15200716-program-transmissions.json" />
     <Content Include="files\transmissions\NNFA19020315-program-transmissions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="files\transmissions\DKMR50000413-program-transmissions.json">
+    <Content Include="files\transmissions\XYNT15200716-program-transmissions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="paket.references" />

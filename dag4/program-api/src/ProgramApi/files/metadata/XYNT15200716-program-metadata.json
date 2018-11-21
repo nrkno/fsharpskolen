@@ -1,0 +1,16 @@
+{
+    "Id" : "MYNT15200716",
+    "Description" : "– Er du homo?",
+    "Rating" : "10+",
+    "Duration" : "00:22:50",
+    "Contributors" : [
+        { 
+            "Name": "Tarjei Sandvik Moe",
+            "Role": "Skuespiller"
+        },
+        { 
+            "Name": "Henrik Holm",
+            "Role": "Skuespiller"
+        }
+    ]
+}
