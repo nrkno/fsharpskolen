@@ -42,6 +42,6 @@
 
 ## Mer avanserte oppgaver
 * Lag en compositional expression for `Result<'a, 'err>` så man slipper å kjede så mange `bind` sammen
-* Skriv om funksjonen `combine` slik at den blir enklere. Er det mulig å lage en slags `Result.fold`?
+* Skriv om funksjonen `combine` slik at den blir enklere. Er det mulig å lage en slags `map2`?
 
 -----
