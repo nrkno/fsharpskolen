@@ -64,11 +64,13 @@ let toUsageRights (data : UsageRightsData) : Result<UsageRights, string> =
         Ok (d, d.GeoBlocked)
     let readFromUtc (d : UsageRightsData, blocked : bool) 
         : Result<UsageRightsData * bool * LocalDate, string> = 
-        toLocalDate d.FromUtc
+        toInstant d.FromUtc
+        |> Result.map (fun instant -> instant.InUtc().LocalDateTime.Date)
         |> Result.map (fun date -> (data, blocked, date))
     let readToUtc (d : UsageRightsData, blocked : bool, fromDate : LocalDate)
         : Result<bool * LocalDate * LocalDate, string> = 
-        toLocalDate d.ToUtc
+        toInstant d.ToUtc
+        |> Result.map (fun instant -> instant.InUtc().LocalDateTime.Date)
         |> Result.map (fun date -> (blocked, fromDate, date))
     let toRights (blocked : bool, fromDate : LocalDate, toDate : LocalDate) 
         : Result<UsageRights, string> = 

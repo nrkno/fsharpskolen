@@ -10,7 +10,7 @@ open ProgramApi.Dto
 open ProgramApi.Lookup
 
 let tryProgramHandler id : Result<Program, string> = 
-    find id |> Result.map Program.fromDomainProgram
+    alsofind id |> Result.map Program.fromDomainProgram
 
 type errorResult = { wrong : string }
 

@@ -48,38 +48,44 @@ let assemblyDirectory =
     Path.GetDirectoryName(path)
 
 let getFilePath (filename : string) : string = 
-    Path.Combine(assemblyDirectory, filename)
+    Path.Combine(assemblyDirectory, Path.Combine("files", filename))
 
 module ManifestRepository = 
 
     let getManifest (id : string) : Result<ManifestData, string> = 
-        let filePath = id |> sprintf "%s-program-manifest.json" |> getFilePath 
+        let getManifestFilePath fileName = 
+            Path.Combine("manifests", fileName) |> getFilePath
+        let filePath = id |> sprintf "%s-program-manifest.json" |> getManifestFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<ManifestData>(fileContent)
             Ok data 
         else 
-            Error (sprintf "Not found: %s" id)
+            Error (sprintf "Not found: %s [%s]" id filePath)
 
 module MetadataRepository = 
 
     let getMetadata (id : string) : Result<MetadataData, string> = 
-        let filePath = id |> sprintf "%s-program-metadata.json" |> getFilePath 
+        let getMetadataFilePath fileName = 
+            Path.Combine("metadata", fileName) |> getFilePath
+        let filePath = id |> sprintf "%s-program-metadata.json" |> getMetadataFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<MetadataData>(fileContent)
             Ok data 
         else 
-            Error (sprintf "Not found: %s" id)
+            Error (sprintf "Not found: %s [%s]" id filePath)
 
 module TransmissionsRepository = 
 
     let getTransmissions (id : string) : Result<TransmissionsData, string> = 
-        let filePath = id |> sprintf "%s-program-transmissions.json" |> getFilePath 
+        let getTransmissionsFilePath fileName = 
+            Path.Combine("transmissions", fileName) |> getFilePath
+        let filePath = id |> sprintf "%s-program-transmissions.json" |> getTransmissionsFilePath 
         if File.Exists(filePath) then 
             let fileContent = File.ReadAllText(filePath)
             let data = Json.deserialize<TransmissionsData>(fileContent)
             Ok data 
         else 
-            Error (sprintf "Not found: %s" id)
+            Error (sprintf "Not found: %s [%s]" id filePath)
 
