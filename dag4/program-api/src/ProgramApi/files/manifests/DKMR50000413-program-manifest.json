@@ -1,13 +1,14 @@
 {
-  "Id" : "DKMR50000413",
-  "Manifest" : "https://dummy.cdn.no/hls/dkmr50000413/playlist.m3u8",
-  "StreamFormat" : "HLS",
-  "Subtitles" : "https://blablabla.text.no/TTV/DKMR50000413.vtt",
-  "SubtitlesFormat" : "WebVTT",
-  "Language" : "No",
-  "UsageRights" : {
-    "GeoBlocked" : false,
-    "FromUtc" : "2014-11-16T19:15:00Z",
-    "ToUtc" : "9999-12-30T23:00:00Z"
+  "Id": "DKMR50000413",
+  "Manifest": "https://dummy.cdn.no/hls/dkmr50000413/playlist.m3u8",
+  "StreamFormat": "HLS",
+  "Subtitles": "https://blablabla.text.no/TTV/DKMR50000413.vtt",
+  "SubtitlesFormat": "WebVTT",
+  "Language": "No",
+  "Duration": "00:29:11",
+  "UsageRights": {
+    "GeoBlocked": false,
+    "FromUtc": "2014-11-16T19:15:00Z",
+    "ToUtc": "9999-12-30T23:00:00Z"
   }
 }

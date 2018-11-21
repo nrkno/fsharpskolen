@@ -66,7 +66,7 @@ type SubtitlesFormat =
     | WebVTT
 
 type LanguageCode = 
-    | No 
+    | No
     | En
 
 type SubtitlesFile = 
@@ -93,10 +93,11 @@ type UsageRightsInterval =
     }
 
 type UsageRightsDuration = 
-    | Perpetual 
-    | Since of LocalDate 
-    | Until of LocalDate
-    | Between of UsageRightsInterval 
+    | NoUsageRights
+    | PerpetualUsageRights 
+    | UsageRightsSince of LocalDate 
+    | UsageRightsUntil of LocalDate
+    | UsageRightsBetween of UsageRightsInterval 
 
 type UsageRights = 
     {
