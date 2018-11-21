@@ -230,6 +230,10 @@ let toTransmission (data : TransmissionData) : Result<Transmission, string> =
     |> Result.bind (addEndTime data.EndTime)
     |> Result.bind createTransmission
 
+module Result = 
+  let map2 f a b =
+     a |> Result.bind (fun a' -> b |> Result.map (fun b' -> f a' b'))
+
 let toProgram (metadataData : MetadataData) (manifestData : ManifestData) (transmissionsData : TransmissionsData) 
     : Result<Program, string> =
     let addMetadata (data : MetadataData) (pid : ProgId)
@@ -242,14 +246,8 @@ let toProgram (metadataData : MetadataData) (manifestData : ManifestData) (trans
         |> Result.map (fun playbackElement -> (pid, metadata, playbackElement))
     let addTransmissions (data : TransmissionsData) (pid : ProgId, metadata : ProgramMetadata, playbackElement : PlaybackElement)
         : Result<ProgId * ProgramMetadata * PlaybackElement * Transmission list, string> =
-        let rec combine (results : Result<'a, 'e> list)
-            : Result<'a list, 'e> = 
-            match results with 
-            | [] -> Ok []
-            | r :: rest -> 
-                match r with 
-                | Error s -> Error s 
-                | Ok t -> combine rest |> Result.bind (fun ts -> Ok (t :: ts))
+        let combine (results : Result<'a, 'e> list) : Result<'a list, 'e> = 
+            List.foldBack (Result.map2 (fun h t -> h :: t)) results (Ok [])
         data.ProgramTransmissions 
         |> List.map toTransmission
         |> combine
