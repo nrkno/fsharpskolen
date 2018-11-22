@@ -31,6 +31,8 @@
 
 # Oppgaver
 * Bygg og kjør prosjektet og se at du får opp en webserver som svarer på `http://localhost:5000`
+* Legg til validering av ProgID.
+* Legg til et nytt felt 'Serie' i program-metadataene. Serie-feltet skal ikke kunne inneholde whitespace.
 * Datafilene under files/metadata inneholder informasjon om medvirkende (`Contributors`), men de kommer ikke ut i responsen. Gjør de nødvendige endringene til å få med medvirkende ut i responsen. (Du vil kanskje støte på et problem som `combine`-funksjonen kan hjelpe deg med.)
 * Oppdater koden så transmissions leses fra repository og kobles inn i data som leveres med program-endepunktet. (Husk på `combine`-funksjonen.)
 * Hvis Newtonsoft ikke klarer å deserialisere blir det kastet en exception, men det er jo ikke det vi ønsker oss! (Se om du klarer å fremprovosere en exception ved å endre på noen av json-filene i files-mappen.) Bruk Result i stedet.
