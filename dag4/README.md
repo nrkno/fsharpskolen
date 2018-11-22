@@ -33,6 +33,7 @@
 * Bygg og kjør prosjektet og se at du får opp en webserver som svarer på `http://localhost:5000`
 * Datafilene under files/metadata inneholder informasjon om medvirkende (`Contributors`), men de kommer ikke ut i responsen. Gjør de nødvendige endringene til å få med medvirkende ut i responsen. (Du vil kanskje støte på et problem som `combine`-funksjonen kan hjelpe deg med.)
 * Oppdater koden så transmissions leses fra repository og kobles inn i data som leveres med program-endepunktet. (Husk på `combine`-funksjonen.)
+* Hvis deserialisering feiler (prøv å hente `XYNT15200716`-programmet) får man ikke nødvendigvis så god informasjon om hvor feilen skjedde. Kan du legge på mer informasjon som sier noe om call stacken? (`Result.mapError` kan være nyttig i så måte.)
 * Hvis man ser på json man får for et program kan man se at deserialisering av discriminated union ser rar ut, se om du kan fikse dette
 * Hente manifest med http 
   * legge til avhengighet for en http-klient
