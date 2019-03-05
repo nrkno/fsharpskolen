@@ -7,11 +7,12 @@
 
 # En slags agenda
 
-* Records
+* Primitive typer
+* Funksjoner
+* Lister
 * Options
 * Discriminated unions
-* Lister
-* Funksjoner
+* Records
 
 ---
 
