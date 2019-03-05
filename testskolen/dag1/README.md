@@ -7,12 +7,11 @@
 
 # En slags agenda
 
+* Records
 * Options
 * Discriminated unions
-* Records
-* Lister - [oppgaver](lister)
-* Funksjoner - [oppgaver](functions)
-* Rekursjon
+* Lister
+* Funksjoner
 
 ---
 
