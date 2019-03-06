@@ -4,7 +4,13 @@
 
 "hello"
 
+'a'
+
 true
+
+true && false
+not false
+
 
 1 + 2
 
@@ -17,6 +23,10 @@ let x = 3 + 4
 let y = 2
 
 x + y
+
+if x = y then "equals"
+else if x < y then "is less than"
+else "is greater than"
 
 // Functions
 
