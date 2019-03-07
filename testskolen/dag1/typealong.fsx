@@ -96,4 +96,20 @@ type Matvare' =
     | Fisk of Kilo
     | Brød of Antall
 
+let matvarer = [ Fisk (Kilo 7) 
+                 Brød (Antall 2) 
+                 Brød (Antall 3) 
+                 Fisk (Kilo 3) 
+                 Brød (Antall 1)
+                 Fisk (Kilo 5) 
+                 Fisk (Kilo 2) 
+                 Brød (Antall 2) 
+                 Brød (Antall 1) 
+                 Brød (Antall 5) ]
 
+let antallBrød = matvarer |> List.map (fun x -> match x with | Fisk _ -> 0 | Brød (Antall n) -> n)
+                          |> List.sum
+
+let antallBrød' = matvarer |> List.choose (fun x -> match x with | Fisk _ -> None | Brød (Antall n) -> Some n)
+                           |> List.sum
+              
