@@ -76,37 +76,24 @@ greet (Some "world")
 greet None
 
 // Discriminated union
-type Direction = North | East | South | West
+type Mat = Fisk | Brød | Banan
 
+type Matvare = 
+    | Fisk of int
+    | Brød of int
+    
+ 
+ let pris vare =
+    match vare with
+    | Fisk f -> 70 * f
+    | Brød b -> 10 * b
+    
 
-type Card = Visa | Master
-Visa
-Master
+type Antall = Antall of int
+type Kilo = Kilo of int
 
-type PhoneNumber = PhoneNumber of int
-PhoneNumber 98765432
-
-type PaymentMethod =
-    | Cash
-    | Vipps of PhoneNumber
-    | Card of Card
-
-
-Cash
-Vipps (PhoneNumber 98765432)
-Card Visa
-
-// Records
-
-type PaymentAmount = PaymentAmount of decimal
-type Currency = NOK | EUR
-type Payment = {
-    Amount: PaymentAmount
-    Currency: Currency
-    Method: PaymentMethod
-}
-
-
-
+type Matvare' =
+    | Fisk of Kilo
+    | Brød of Antall
 
 
