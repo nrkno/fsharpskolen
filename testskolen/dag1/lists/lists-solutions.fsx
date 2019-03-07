@@ -37,3 +37,13 @@ let sumOfSquares lst =
     |> List.sum
 
 printfn "The sum of the square of elements of %A is %d: %b" numbers (sumOfSquares numbers) ((sumOfSquares numbers) = 385)
+
+let fisk = ["laks"; "sei"; "torsk"; "abbor"; "gjedde"; "makrell"]
+
+// Summer lengden av strengene i en liste av strenger
+let sumOfLengths (lst: string list) =
+    lst
+    |> List.map (fun str -> String.length str)
+    |> sum
+
+printfn "The sum of lengths of %A is %d" fisk (sumOfLengths fisk)

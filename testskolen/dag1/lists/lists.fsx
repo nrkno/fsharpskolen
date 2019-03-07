@@ -34,3 +34,10 @@ printfn "The sum of the elements of %A is %d" numbers (sum numbers)
 let sumOfSquares lst = 0
 
 printfn "The sum of the square of elements of %A is %d: %b" numbers (sumOfSquares numbers) ((sumOfSquares numbers) = 385)
+
+let fisk = ["laks"; "sei"; "torsk"; "abbor"; "gjedde"; "makrell"]
+
+// Summer lengden av strengene i en liste av strenger
+let sumOfLengths (lst: string list) = 0
+
+printfn "The sum of lengths of %A is %d" fisk (sumOfLengths fisk)
