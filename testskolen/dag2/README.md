@@ -8,8 +8,8 @@
 # En slags agenda
 
 * Repetisjon av discriminated unions/options
-* Tupler og records
-* Recursive funksjoner
+* Tupler og records - [oppgaver](records)
+* Recursive funksjoner- [oppgaver](recursion)
 * Program api
 
 ---
