@@ -9,7 +9,7 @@
 
 * Repetisjon av discriminated unions/options
 * Tupler og records - [oppgaver](records)
-* Recursive funksjoner- [oppgaver](recursion)
+* Mer funksjoner - rekursjon og komposisjon - [oppgaver](functions)
 * Program api - [program-api](program-api)
 
 ---
