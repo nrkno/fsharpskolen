@@ -8,3 +8,4 @@
 # F#-testskolen
 
 * [Dag 1](testskolen/dag1/README.md)
+* [Dag 2](testskolen/dag2/README.md)
