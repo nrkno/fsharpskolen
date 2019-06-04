@@ -1,0 +1,11 @@
+source https://www.nuget.org/api/v2
+
+framework: >= netcoreapp2.2
+nuget FSharp.Core
+nuget xunit
+nuget xunit.runner.visualstudio
+
+group Build
+source https://www.nuget.org/api/v2
+
+nuget FAKE
