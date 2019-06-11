@@ -4,7 +4,7 @@
 
 ### Giraffe web framework
 
-## Test
+## Tests
 
 ### Xunit
 
