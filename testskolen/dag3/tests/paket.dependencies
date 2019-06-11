@@ -4,6 +4,7 @@ framework: >= netcoreapp2.2
 nuget FSharp.Core
 nuget xunit
 nuget xunit.runner.visualstudio
+nuget Expecto
 
 group Build
 source https://www.nuget.org/api/v2
