@@ -3,7 +3,7 @@
 ## Program API
 
 ### Oppg 1: Validere programId
-I endepunktet `programs/{progId}` så vil vi kanskje sjekke at progId er en rimelig id (feks 4 bokstaver og 8 tall) før vi gjør videre kall til `getProgram`. 
+I endepunktet `programs/{progId}` så ønsker vi kanskje sjekke at progId er en rimelig id (feks 4 bokstaver og 8 tall) og lager en egen type for programid som vi brukere videre for å hente program i `getProgram`
 * Lag en ny type `ProgramId`i domain som holder på en string
 * Oppdater `Program`typen som er der med at `Id`er av type `ProgramId` i stedet for string
 * Lag en funksjon i `Domain`for å validere programId, den kan godt returnere en option, `None` hvis den ikke er gyldig eller `Some ProgramId` om den finnes.
