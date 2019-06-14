@@ -10,7 +10,8 @@ I endepunktet `programs/{progId}` så ønsker vi kanskje sjekke at progId er en 
 * Kall den før `getProgram` i `programHandler`, og returner feks bad request fra apiet om programiden ikke er på fornuftig format. Hvis den er godkjent, fortsett videre med å hente programmet med `getProgram`, denne funksjonen må endres litt for å godta den nye typen.
 
 ### Oppg 2: Bytte fra Option til Result
-Ble det litt kjedelig mye pattern mathcing i `programhandler` ved å bruke option i forrige oppgave? Det er fordi option ikke er uttrykksfull nok for det vi trenger, det hadde f.eks vært fint om å kunne skille på om `None`skyldes ugyldig input eller at programmet ikke finnes. `Resultat` kan være akkurat det vi trenger.
+Ble det litt kjedelig mye pattern mathcing i `programhandler` ved å bruke option i forrige oppgave? Det er fordi option ikke er uttrykksfull nok for det vi trenger, det hadde vært fint om å kunne skille på om `None`skyldes ugyldig input eller at programmet ikke finnes. `Resultat` kan være akkurat det vi trenger.
+* Vi trenger å lage en egen feiltype som er en discriminated union av de to mulige feilsituasjonene ugyldig program id og at program ikke finnes
 
 ### Oppg 3: Hente programdata fra et annet api
 
