@@ -9,3 +9,4 @@
 
 * [Dag 1](testskolen/dag1/README.md)
 * [Dag 2](testskolen/dag2/README.md)
+* [Dag 3](testskolen/dag3/README.md)
