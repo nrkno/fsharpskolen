@@ -40,9 +40,12 @@ Det hadde jo vært fint `getProgram` kunne gitt programmer med mer realistisk da
     |> Async.RunSynchronously
   ```
   * Til slutt trenger vi funksjonen som vi vil kalle fra `getPrograms`, denne funksjonen kan ta inn programid og returnere en `Result` med dtoen hvis kallet gikk bra, og med feil hvis kallet feilet. Kanskje du vil håndtere not found annerledes enn om apiet er nede eller returnerer andre typer feil? I såfall må du kanskje legge til flere varianter i feiltypen vil laget tidligere
-* Deretter kan vi i `getPrograms` bruke den nye funksjonen
+* I `getPrograms` kan vi nå bruke den nye funksjonen istedet for å slå opp i den lista av strenger vi startet med.
+  * Oppdater `Program` typen med nye felter vi vil ha med i, som title, description og medium. Men i stedet for å la medium være et tall vil vi at den skal være en streng
+  * Lag en funksjon som mapper fra program-dtoen til program, for medium er 1 = tv og 2 = radio
+  * I `getPrograms` kan vi sende resultatet fra kallet til det eksterne apiet til `Result.map` og mapper-funksjonen
 
-## Tests
+## Test frameworks
 
 ### Xunit
 
