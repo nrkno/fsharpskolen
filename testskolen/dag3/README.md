@@ -16,7 +16,31 @@ Ble det litt kjedelig mye pattern mathcing i `programhandler` ved å bruke optio
 * Oppdater `programHandler`, nå kan man starte med iden som kommer inn til funksjonen og pipe den gjennom validering og henting av program. og man kan klare seg med en match til slutt av resultatet.
 
 ### Oppg 3: Hente programdata fra et annet api
-Det hadde jo vært fint `getProgram` kunne gitt programmer med mer realistisk data, så la oss prøve å hente informasjon om programmer fra et annet api, feks fra [program endepunktet](http://psapi3-webapp-prod-we.azurewebsites.net/swagger/ui/index#/Program) i PsApi. 
+Det hadde jo vært fint `getProgram` kunne gitt programmer med mer realistisk data som vi slapp å finne på selv, så la oss prøve å hente informasjon om programmer fra et annet api, feks fra [program endepunktet](http://psapi3-webapp-prod-we.azurewebsites.net/swagger/ui/index#/Program) i PsApi. 
+* Sikkert greit å la en ny modul i en ny fil for å kalle apiet og returnere en dto-type med verdiene vi vil hente fra apiet
+  * Lag en type ProgramDto som inneholder de feltene vi ønsker å hente ut fra json responsen i endepunktet. La oss si at vi er interessert i å hente ut sourceMedium, title og shortDescription. Hvis dto er en record type der feltene har samme navn som feltene har i responsen fra endepunktet kan vi enkelt deserialisere til dtoen
+  * Deserialisering kan vi gjøre med `NewtonSoft.Json`
+  ```JsonConvert.DeserializeObject<ProgramDto>(json)```
+  * For å gjøres selve kallet kan vi bruke httpklienten som er innebygd i `System.Net.Http`:
+  ```
+  let httpClient = new HttpClient()
+  httpClient.BaseAddress <- Uri "http://psapi3-webapp-prod-we.azurewebsites.net"
+  ```
+  * For å gjøre selve kallet trenger man litt "greier", det kan for eksempel se sånn her ut
+  ```
+  let executeRequest id =
+    async {
+        let request = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, (sprintf "programs/%s" id))
+        let! response = httpClient.SendAsync(request) |> Async.AwaitTask
+        let! stream = response.Content.ReadAsStreamAsync() |> Async.AwaitTask
+        let reader = new StreamReader(stream, Encoding.UTF8)
+        let content = reader.ReadToEnd()
+        return (content, response.StatusCode)
+    }
+    |> Async.RunSynchronously
+  ```
+  * Til slutt trenger vi funksjonen som vi vil kalle fra `getPrograms`, denne funksjonen kan ta inn programid og returnere en `Result` med dtoen hvis kallet gikk bra, og med feil hvis kallet feilet. Kanskje du vil håndtere not found annerledes enn om apiet er nede eller returnerer andre typer feil? I såfall må du kanskje legge til flere varianter i feiltypen vil laget tidligere
+* Deretter kan vi i `getPrograms` bruke den nye funksjonen
 
 ## Tests
 
