@@ -11,7 +11,9 @@ I endepunktet `programs/{progId}` så ønsker vi kanskje sjekke at progId er en 
 
 ### Oppg 2: Bytte fra Option til Result
 Ble det litt kjedelig mye pattern mathcing i `programhandler` ved å bruke option i forrige oppgave? Det er fordi option ikke er uttrykksfull nok for det vi trenger, det hadde vært fint om å kunne skille på om `None`skyldes ugyldig input eller at programmet ikke finnes. `Resultat` kan være akkurat det vi trenger.
-* Vi trenger å lage en egen feiltype som er en discriminated union av de to mulige feilsituasjonene ugyldig program id og at program ikke finnes
+* Vi trenger å lage en egen feiltype som er en discriminated union av de to mulige feilsituasjonene ugyldig program id og at program ikke finnes, lag en type for det i `Domain`.
+* Endre valideringsfunksjonen fra forrige oppgave og `getPrograms` til å returnere `Result` i stedet for `Option`
+* Oppdater `programHandler`, nå kan man starte med iden som kommer inn til funksjonen og pipe den gjennom validering og henting av program. og man kan klare seg med en match til slutt av resultatet.
 
 ### Oppg 3: Hente programdata fra et annet api
 
