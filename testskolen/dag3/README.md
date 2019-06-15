@@ -16,6 +16,7 @@ Ble det litt kjedelig mye pattern mathcing i `programhandler` ved å bruke optio
 * Oppdater `programHandler`, nå kan man starte med iden som kommer inn til funksjonen og pipe den gjennom validering og henting av program. og man kan klare seg med en match til slutt av resultatet.
 
 ### Oppg 3: Hente programdata fra et annet api
+Det hadde jo vært fint `getProgram` kunne gitt programmer med mer realistisk data, så la oss prøve å hente informasjon om programmer fra et annet api, feks fra [program endepunktet](http://psapi3-webapp-prod-we.azurewebsites.net/swagger/ui/index#/Program) i PsApi. 
 
 ## Tests
 
