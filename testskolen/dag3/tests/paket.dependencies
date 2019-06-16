@@ -2,6 +2,7 @@ source https://www.nuget.org/api/v2
 
 framework: >= netcoreapp2.2
 nuget FSharp.Core
+nuget TickSpec 1.1.0
 nuget xunit
 nuget xunit.runner.visualstudio
 nuget Expecto

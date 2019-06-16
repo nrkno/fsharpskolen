@@ -548,6 +548,8 @@ NUGET
       System.Xml.ReaderWriter (>= 4.3)
       System.Xml.XmlDocument (>= 4.3)
       System.Xml.XPath (>= 4.3)
+    TickSpec (1.1)
+      FSharp.Core (>= 3.1.2.5)
     xunit (2.4.1)
       xunit.analyzers (>= 0.10)
       xunit.assert (2.4.1)

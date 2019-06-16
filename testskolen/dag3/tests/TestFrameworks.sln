@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Expecto.Tests", "Expecto.Tests\Expecto.Tests.fsproj", "{7A0F7E7B-517D-4B5B-A5BB-9EC354A1EB6A}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Unit.Tests", "Unit.Tests\Unit.Tests.fsproj", "{E3E68370-F668-4BD9-85E5-3347B7EEB9CA}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TickSpec.Tests", "TickSpec.Tests\TickSpec.Tests.fsproj", "{9DF04267-C879-4A30-85A7-0A8A2F6F5AA3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A0F7E7B-517D-4B5B-A5BB-9EC354A1EB6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0F7E7B-517D-4B5B-A5BB-9EC354A1EB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0F7E7B-517D-4B5B-A5BB-9EC354A1EB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0F7E7B-517D-4B5B-A5BB-9EC354A1EB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E68370-F668-4BD9-85E5-3347B7EEB9CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E68370-F668-4BD9-85E5-3347B7EEB9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E68370-F668-4BD9-85E5-3347B7EEB9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E68370-F668-4BD9-85E5-3347B7EEB9CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF04267-C879-4A30-85A7-0A8A2F6F5AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF04267-C879-4A30-85A7-0A8A2F6F5AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF04267-C879-4A30-85A7-0A8A2F6F5AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF04267-C879-4A30-85A7-0A8A2F6F5AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
