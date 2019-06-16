@@ -26,7 +26,7 @@ Det hadde jo vært fint `getProgram` kunne gitt programmer med mer realistisk da
   let httpClient = new HttpClient()
   httpClient.BaseAddress <- Uri "http://psapi3-webapp-prod-we.azurewebsites.net"
   ```
-  * For å gjøre selve kallet trenger man litt "greier", det kan for eksempel se sånn her ut
+  * For å gjøre selve kallet trenger man litt "greier", det kan for eksempel se sånn her ut (I virkeligheten kanskje med litt mer feilhåndtering)
   ```
   let executeRequest id =
     async {
@@ -59,3 +59,15 @@ https://github.com/haf/expecto
 * Tests and testlists
 * Focused tests and lists
 * Setup and tear down
+
+### Tick.Spec
+https://github.com/fsprojects/TickSpec
+
+BDD without a framework
+http://www.fssnip.net/pr/title/BDD-without-a-framework
+
+
+### FsCheck
+QuickCheck for F#
+
+https://fscheck.github.io/FsCheck/
