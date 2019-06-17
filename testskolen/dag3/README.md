@@ -61,7 +61,7 @@ https://github.com/haf/expecto
 * Setup and tear down
 
 ### Tick.Spec
-https://github.com/fsprojects/TickSpec
+https://github.com/fsprojects/TickSpec (Ser bare ut til å virke i .NET framework og ikke .NET core)
 
 BDD without a framework
 http://www.fssnip.net/pr/title/BDD-without-a-framework
