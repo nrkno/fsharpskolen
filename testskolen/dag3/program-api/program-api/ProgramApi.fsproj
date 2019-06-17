@@ -9,7 +9,6 @@
     <Compile Include="Domain.fs" />
     <Compile Include="ProgramRepository.fs" />
     <Compile Include="Program.fs" />
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
