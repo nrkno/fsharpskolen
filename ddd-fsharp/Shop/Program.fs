@@ -14,14 +14,14 @@ let main argv =
         ]
     let result1 = uncheckedOrderLines |> checkOrder1 catalog
     match result1 with 
-    | Some validOrder -> 
-        printfn "Dette gikk fint."
-    | None -> 
-        printfn "Ooops"
+    | Ok validOrder -> 
+        printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
+    | Error (ErrorMessage msg) -> 
+        printfn "Dette skjedde %s" msg 
     let result2 = uncheckedOrderLines |> checkOrder2 catalog
     match result2 with 
-    | Some validOrder -> 
-        printfn "Dette gikk fint (2)."
-    | None -> 
-        printfn "Ooops (2)"
+    | Ok validOrder -> 
+        printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
+    | Error (ErrorMessage msg) -> 
+        printfn "Dette skjedde %s" msg 
     0 // return an integer exit code

@@ -14,6 +14,8 @@ type CheckedOrderLine = {
 type UncheckedAddress = UncheckedAddress of string 
 type UncheckedOrder = UncheckedOrderLine list
 type CheckedOrder = CheckedOrderLine list 
+type ValidationError = ErrorMessage of string
+
 //type Order = 
 //    | Checked of CheckedOrder 
 //    | Unchecked of UncheckedOrder 
@@ -33,22 +35,18 @@ let checkOrderLine (catalog : ProductId -> string option) ({ pid = pid; quantity
     | None -> None
     | Some name -> Some { pid = pid; name = name; quantity = quantity }
 // Keep all ok lines.
-let checkOrder1 (catalog : ProductId -> string option) (order : UncheckedOrder) 
-    : CheckedOrder option = 
+let checkOrder1 (catalog : ProductId -> string option) (order : UncheckedOrder) : Result<CheckedOrder, ValidationError>
+    =
     let result : CheckedOrderLine list = 
         order 
         |> List.choose (checkOrderLine catalog)
-    if List.isEmpty result then None else Some result
-// All lines must be ok.
-let checkOrder2 (catalog : ProductId -> string option) (order : UncheckedOrder) =
-    let result : CheckedOrderLine list = 
-        order 
-        |> List.choose (checkOrderLine catalog)
+    if List.isEmpty result then Error <| ErrorMessage "Dette rota du til" else Ok result
 
-    if List.isEmpty result then 
-        None    
-    elif List.length result <> List.length order then
-        None 
-    else 
-        Some result
-    
+// All lines must be ok.
+let checkOrder2 (catalog : ProductId -> string option) (order : UncheckedOrder) : Result<CheckedOrder, ValidationError> =
+    let result : CheckedOrderLine list = 
+        order 
+        |> List.choose (checkOrderLine catalog)
+    if List.isEmpty result then Error <| ErrorMessage "Ingenting i orden" 
+    else if List.length result <> List.length order then Error <| ErrorMessage "Noen av elementene er ikke i orden"
+    else Ok result
