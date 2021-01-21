@@ -16,7 +16,15 @@ type CheckedOrderLine =
 type UncheckedAddress = UncheckedAddress of string
 type UncheckedOrder = UncheckedOrderLine list
 type CheckedOrder = CheckedOrderLine list
-type ValidationError = ErrorMessage of string
+type ValidationError = ValidationError of string
+
+type StockError =
+    | NotEnoughInStockError of string
+    | UnitMismatch of string
+
+// type ErrorTypes =
+//     | ValidationError
+//     | NotEnoughInStockError
 
 //type Order =
 //    | Checked of CheckedOrder
@@ -33,6 +41,35 @@ let catalog (pid: ProductId): string option =
     products
     |> List.tryPick (fun (i, name) -> if i = pid then Some name else None)
 
+let stock pid: Quantity =
+    let stocks =
+        [ (ProductId 173, Units 10)
+          (ProductId 7348, Weight 5)
+          (ProductId 3748, Units 0)
+          (ProductId 14, Units 8)
+          (ProductId 757, Weight 0)
+          (ProductId 99834, Weight 0) ]
+
+    stocks |> List.find (fun (i, _) -> i = pid) |> snd
+
+let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
+    let qtyInStock = stock line.pid
+
+    match line.quantity, qtyInStock with
+    | Weight wOrder, Weight wStock ->
+        if wOrder <= wStock then
+            Ok()
+        else
+            Error <| NotEnoughInStockError "Har ikke nok"
+    | Units uOrder, Units uStock ->
+        if uOrder <= uStock then
+            Ok()
+        else
+            Error
+            <| NotEnoughInStockError "Har ikke mange nok"
+    | _ -> Error <| UnitMismatch "Blandet vekt og antall"
+
+
 let checkOrderLine
     (catalog: ProductId -> string option)
     ({ pid = pid; quantity = quantity }: UncheckedOrderLine)
@@ -40,7 +77,7 @@ let checkOrderLine
     match catalog pid with
     | None ->
         Error
-        <| ErrorMessage(sprintf "Fant ikke produktet med id %A" pid)
+        <| ValidationError(sprintf "Fant ikke produktet med id %A" pid)
     | Some name ->
         Ok
             { pid = pid
@@ -61,22 +98,31 @@ let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a li
     List.foldBack folder listOfResult initState
 
 // Keep all ok lines.
-let checkOrder1 (catalog: ProductId -> string option) (order: UncheckedOrder): Result<CheckedOrder, ValidationError> =
+let getAllOkOrderLines
+    (catalog: ProductId -> string option)
+    (order: UncheckedOrder)
+    : Result<CheckedOrder, ValidationError> =
     let result: CheckedOrderLine list =
         order
         |> List.choose
             (fun line ->
                 match checkOrderLine catalog line with
-                | Ok checkedOrderLine -> Some checkedOrderLine
+                | Ok checkedOrderLine ->
+                    match isEnoughInStock checkedOrderLine with
+                    | Ok _ -> Some checkedOrderLine
+                    | Error _ -> None
                 | Error _ -> None)
 
     if List.isEmpty result then
-        Error <| ErrorMessage "Dette rota du til"
+        Error <| ValidationError "Dette rota du til"
     else
         Ok result
 
 // All lines must be ok.
-let checkOrder2 (catalog: ProductId -> string option) (order: UncheckedOrder): Result<CheckedOrder, ValidationError> =
+let checkAllOrderLinesOk
+    (catalog: ProductId -> string option)
+    (order: UncheckedOrder)
+    : Result<CheckedOrder, ValidationError> =
     order
     |> List.map (checkOrderLine catalog)
     |> listOfResultToResultOfList
