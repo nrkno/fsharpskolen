@@ -16,15 +16,15 @@ type CheckedOrderLine =
 type UncheckedAddress = UncheckedAddress of string
 type UncheckedOrder = UncheckedOrderLine list
 type CheckedOrder = CheckedOrderLine list
-type ValidationError = ValidationError of string
+type ValidationError = ValidationErrorMessage of string
 
 type StockError =
     | NotEnoughInStockError of string
     | UnitMismatch of string
 
-// type ErrorTypes =
-//     | ValidationError
-//     | NotEnoughInStockError
+type Error =
+    | ValidationError of ValidationError
+    | StockError of StockError
 
 //type Order =
 //    | Checked of CheckedOrder
@@ -69,6 +69,10 @@ let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
             <| NotEnoughInStockError "Har ikke mange nok"
     | _ -> Error <| UnitMismatch "Blandet vekt og antall"
 
+let wrapper func el =
+    match func el with
+    | Ok _ -> Ok el
+    | Error m -> Error m 
 
 let checkOrderLine
     (catalog: ProductId -> string option)
@@ -77,7 +81,7 @@ let checkOrderLine
     match catalog pid with
     | None ->
         Error
-        <| ValidationError(sprintf "Fant ikke produktet med id %A" pid)
+        <| ValidationErrorMessage (sprintf "Fant ikke produktet med id %A" pid)
     | Some name ->
         Ok
             { pid = pid
@@ -101,17 +105,26 @@ let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a li
 let getAllOkOrderLines
     (catalog: ProductId -> string option)
     (order: UncheckedOrder)
-    : Result<CheckedOrder, ValidationError> =
-    let result: CheckedOrderLine list =
+    : Result<CheckedOrder, Error> =
+    let result : Result<CheckedOrderLine, Error> list =
+        // CheckedOrderLine -> Result<CheckedOrderLine, Error>
+        let stockCheck line = wrapper isEnoughInStock line |> Result.mapError StockError
         order
-        |> List.choose
+        |> List.map
             (fun line ->
-                match checkOrderLine catalog line with
-                | Ok checkedOrderLine ->
-                    match isEnoughInStock checkedOrderLine with
-                    | Ok _ -> Some checkedOrderLine
-                    | Error _ -> None
-                | Error _ -> None)
+                // result.bind
+                // fun: T -> Result<U, err> elemt: T -> Resultat<U, err>  
+                // T = checkedOrderline, fun: isEnoughInStock T - > Result<Unit, StockError> 
+
+                checkOrderLine catalog line
+                |> Result.mapError ValidationError
+                |> Result.bind stockCheck) 
+                // match checkOrderLine catalog line with
+                // | Ok checkedOrderLine ->
+                //     match isEnoughInStock checkedOrderLine with
+                //     | Ok _ -> Some checkedOrderLine
+                //     | Error _ -> None
+                // | Error _ -> None)
 
     if List.isEmpty result then
         Error <| ValidationError "Dette rota du til"
@@ -122,7 +135,8 @@ let getAllOkOrderLines
 let checkAllOrderLinesOk
     (catalog: ProductId -> string option)
     (order: UncheckedOrder)
-    : Result<CheckedOrder, ValidationError> =
+    : Result<CheckedOrder, Error> =
     order
     |> List.map (checkOrderLine catalog)
     |> listOfResultToResultOfList
+    |> Result.mapError (ValidationError)
