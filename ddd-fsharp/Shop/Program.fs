@@ -16,7 +16,13 @@ let main argv =
 
     match result1 with
     | Ok validOrder -> printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
-    | Error (ValidationError msg) -> printfn "Dette skjedde %s" msg
+    | Error err ->
+        match err with
+        | ValidationError (ValidationErrorMessage msg) -> printfn "Valideringen gikk dårlig %s" msg
+        | StockError stockErr ->
+            match stockErr with
+            | NotEnoughInStockError msg -> printfn "Hadde ikke nok %s" msg
+            | UnitMismatch msg -> printfn "Helt på trynet %s" msg
 
     let result2 =
         uncheckedOrderLines
@@ -24,6 +30,13 @@ let main argv =
 
     match result2 with
     | Ok validOrder -> printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
-    | Error (ValidationError msg) -> printfn "Dette skjedde %s" msg
+    | Error err ->
+        match err with
+        | ValidationError (ValidationErrorMessage msg) -> printfn "Valideringen gikk dårlig %s" msg
+        | StockError stockErr ->
+            match stockErr with
+            | NotEnoughInStockError msg -> printfn "Hadde ikke nok %s" msg
+            | UnitMismatch msg -> printfn "Helt på trynet %s" msg
+
 
     0 // return an integer exit code
