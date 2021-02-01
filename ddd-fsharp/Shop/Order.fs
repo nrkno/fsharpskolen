@@ -29,7 +29,7 @@ type OrderLineError =
 //type Order =
 //    | Checked of CheckedOrder
 //    | Unchecked of UncheckedOrder
-let catalog (pid: ProductId): string option =
+let catalog (pid: ProductId): Async<string option> =
     let products =
         [ (ProductId 173, "halmbukk")
           (ProductId 7348, "rødkål")
@@ -38,8 +38,12 @@ let catalog (pid: ProductId): string option =
           (ProductId 757, "grøt")
           (ProductId 99834, "pepperkaker") ]
 
-    products
-    |> List.tryPick (fun (i, name) -> if i = pid then Some name else None)
+    async {
+        return
+            products
+            |> List.tryPick (fun (i, name) -> if i = pid then Some name else None)
+    }
+
 
 let stock pid: Quantity =
     let stocks =
@@ -74,19 +78,28 @@ let passthru (deadEndFunc: ('a -> Result<Unit, 'err>)) (el: 'a): Result<'a, 'err
     | Ok _ -> Ok el
     | Error m -> Error m
 
+module Async =
+    let map f computation =
+        async.Bind(computation, f >> async.Return)
+
 let checkOrderLine
-    (catalog: ProductId -> string option)
+    (catalog: ProductId -> Async<string option>)
     ({ pid = pid; quantity = quantity }: UncheckedOrderLine)
-    : Result<CheckedOrderLine, ValidationError> =
-    match catalog pid with
-    | None ->
-        Error
-        <| ValidationErrorMessage(sprintf "Fant ikke produktet med id %A" pid)
-    | Some name ->
-        Ok
-            { pid = pid
-              name = name
-              quantity = quantity }
+    : Async<Result<CheckedOrderLine, ValidationError>> =
+    let computation = catalog pid
+
+    let f pid quantity name =
+        match name with
+        | None ->
+            Error
+            <| ValidationErrorMessage(sprintf "Fant ikke produktet med id %A" pid)
+        | Some name ->
+            Ok
+                { pid = pid
+                  name = name
+                  quantity = quantity }
+
+    Async.map (f pid quantity) computation
 
 let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a list, 'e> =
     let initState: Result<'a list, 'e> = Ok []
@@ -101,7 +114,7 @@ let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a li
 
     List.foldBack folder listOfResult initState
 
-let validateOrderLines catalog order = 
+let validateOrderLines (catalog: ProductId -> Async<string option>) order =
     let orderCheck line =
         checkOrderLine catalog line
         |> Result.mapError ValidationError
@@ -115,10 +128,11 @@ let validateOrderLines catalog order =
 
 // Keep all ok lines.
 let getAllOkOrderLines
-    (catalog: ProductId -> string option)
+    (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
     : Result<CheckedOrder, OrderLineError> =
     let result: Result<CheckedOrderLine, OrderLineError> list = validateOrderLines catalog order
+
     let okLines =
         result
         |> List.filter
@@ -136,10 +150,9 @@ let getAllOkOrderLines
 
 // All lines must be ok.
 let checkAllOrderLinesOk
-    (catalog: ProductId -> string option)
+    (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
     : Result<CheckedOrder, OrderLineError> =
     order
     |> validateOrderLines catalog
     |> listOfResultToResultOfList
-    
