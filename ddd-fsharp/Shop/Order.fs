@@ -38,12 +38,9 @@ let catalog (pid: ProductId): Async<string option> =
           (ProductId 757, "grøt")
           (ProductId 99834, "pepperkaker") ]
 
-    async {
-        return
+    async.Return (
             products
-            |> List.tryPick (fun (i, name) -> if i = pid then Some name else None)
-    }
-
+            |> List.tryPick (fun (i, name) -> if i = pid then Some name else None))
 
 let stock pid: Quantity =
     let stocks =
@@ -117,42 +114,51 @@ let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a li
 let validateOrderLines (catalog: ProductId -> Async<string option>) order =
     let orderCheck line =
         checkOrderLine catalog line
-        |> Result.mapError ValidationError
+        |> Async.map (Result.mapError ValidationError)
 
     let stockCheck line =
         passthru isEnoughInStock line
         |> Result.mapError StockError
 
     order
-    |> List.map (orderCheck >> (Result.bind stockCheck))
+    |> List.map (orderCheck >> (Async.map (Result.bind stockCheck)))
 
 // Keep all ok lines.
 let getAllOkOrderLines
     (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
-    : Result<CheckedOrder, OrderLineError> =
-    let result: Result<CheckedOrderLine, OrderLineError> list = validateOrderLines catalog order
+    : Async<Result<CheckedOrder, OrderLineError>> =
+    let result: Async<Result<CheckedOrderLine, OrderLineError>> list = validateOrderLines catalog order
+
+    // [Async<Result<CheckedOrderLine, OrderLineError>>;Async<Result<CheckedOrderLine, OrderLineError>>;Async<Result<CheckedOrderLine, OrderLineError>>]
 
     let okLines =
         result
-        |> List.filter
+        |> Async.Parallel
+        |> Async.map Array.toList 
+        |> Async.map (List.filter
             (fun line ->
                 match line with
                 | Ok _ -> true
-                | Error _ -> false)
+                | Error _ -> false))
 
-    if List.isEmpty okLines then
-        ValidationErrorMessage "Ingen gyldige linjer"
-        |> ValidationError
-        |> Error
-    else
-        listOfResultToResultOfList okLines
+    let temp linesOk =
+        if List.isEmpty linesOk then
+            ValidationErrorMessage "Ingen gyldige linjer"
+            |> ValidationError
+            |> Error
+        else
+            listOfResultToResultOfList linesOk
+    
+    okLines |> Async.map temp
 
 // All lines must be ok.
 let checkAllOrderLinesOk
     (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
-    : Result<CheckedOrder, OrderLineError> =
+    : Async<Result<CheckedOrder, OrderLineError>> =
     order
     |> validateOrderLines catalog
-    |> listOfResultToResultOfList
+    |> Async.Parallel
+    |> Async.map Array.toList
+    |> Async.map listOfResultToResultOfList

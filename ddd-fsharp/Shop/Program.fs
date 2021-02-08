@@ -12,7 +12,9 @@ let main argv =
             quantity = Weight 1 } ]
 
     let result1 =
-        uncheckedOrderLines |> getAllOkOrderLines catalog
+        uncheckedOrderLines 
+        |> getAllOkOrderLines catalog
+        |> Async.RunSynchronously
 
     match result1 with
     | Ok validOrder -> printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
@@ -27,6 +29,7 @@ let main argv =
     let result2 =
         uncheckedOrderLines
         |> checkAllOrderLinesOk catalog
+        |> Async.RunSynchronously
 
     match result2 with
     | Ok validOrder -> printfn "Dette gikk fint. Du har %d godkjente elementer" (List.length validOrder)
