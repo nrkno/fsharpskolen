@@ -98,18 +98,16 @@ let checkOrderLine
 
     Async.map (f pid quantity) computation
 
-let listOfResultToResultOfList (listOfResult: Result<'a, 'e> list): Result<'a list, 'e> =
-    let initState: Result<'a list, 'e> = Ok []
+let prepend firstR restR =
+    match firstR, restR with
+        | Ok first, Ok rest -> Ok (first::rest)
+        | Error err1, Ok _ -> Error err1
+        | Ok _, Error err2 -> Error err2
+        | Error err1, Error _ -> Error err1
 
-    let folder (result: Result<'a, 'e>) (currentState: Result<'a list, 'e>) =
-        match currentState with
-        | Error e -> Error e
-        | Ok results ->
-            match result with
-            | Error e -> Error e
-            | Ok thing -> Ok(thing :: results)
-
-    List.foldBack folder listOfResult initState
+let sequence aListOfResults =
+    let initialValue = Ok []
+    List.foldBack prepend aListOfResults initialValue
 
 let validateOrderLines (catalog: ProductId -> Async<string option>) order =
     let orderCheck line =
@@ -148,7 +146,7 @@ let getAllOkOrderLines
             |> ValidationError
             |> Error
         else
-            listOfResultToResultOfList linesOk
+            sequence linesOk
     
     okLines |> Async.map temp
 
@@ -161,4 +159,4 @@ let checkAllOrderLinesOk
     |> validateOrderLines catalog
     |> Async.Parallel
     |> Async.map Array.toList
-    |> Async.map listOfResultToResultOfList
+    |> Async.map sequence 
