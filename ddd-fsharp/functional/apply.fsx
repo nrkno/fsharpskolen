@@ -30,6 +30,12 @@ module Option =
     a2 (Some "foo") 
     a2 None 
 
+    let pure' x = Some x 
+    let foo2 = pure' sumOfString
+    let unpackedFoo2 = apply foo2
+    unpackedFoo2 (pure' "Hei")
+
+
 module List =
 
     // The apply function for lists
@@ -51,7 +57,7 @@ module List =
     
     let unpacked2 = apply [String.length; sumOfString]
     unpacked2 ["hei"; "fooooo"] 
-    unpacked2 ["Hei"] 
+    unpacked2 (pure' "Hei")
 
 module Async = 
 //Borrowed from https://github.com/fsprojects/FSharpPlus/blob/master/src/FSharpPlus/Extensions/Async.fs#L47
