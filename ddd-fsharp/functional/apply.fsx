@@ -24,7 +24,7 @@ module Option =
     apply (pure' id) (Some 5) = Some 5  // Holds
     apply (pure'' id) (Some 6) = Some 5 // Fails
 
-    let add10Applied = apply (pure' add10) 
+    let add10Applied = apply (pure' add10) // E<int> -> E<int>
     add10Applied (pure' 20) 
 
     let appliedStringLength = apply (pure' String.length) 
@@ -34,7 +34,7 @@ module Option =
     appliedNoneStringop (pure' "foo") 
     appliedNoneStringop None 
 
-    let appliedSumOfString = apply (pure' sumOfString)
+    let appliedSumOfString = apply (pure' sumOfString) // E<string> -> E<int>
     appliedSumOfString (pure' "Hei")
 
 
@@ -58,7 +58,7 @@ module List =
 
     apply [add10; add20] [3; 7]
 
-    let add10Applied = apply (pure' add10) 
+    let add10Applied = apply (pure' add10) // E<int> -> E<int>
     add10Applied (pure' 20) 
 
 module Async = 
@@ -69,10 +69,11 @@ module Async =
     let pure'' (value : 'a) : Async<'a> = async { do! Async.Sleep(10) 
                                                   return value } 
 
-    (apply (pure' id) (async.Return 5) |> Async.RunSynchronously) = ((async.Return 5) |> Async.RunSynchronously) 
     // This is most likely cheating, because they should be compared before they are 
     // run and they are most certainly not equal at some point in time when one has completed and the other has not
-    (apply (pure'' id) (async.Return 5) |> Async.RunSynchronously) = ((async.Return 5) |> Async.RunSynchronously) 
+    let timeoutStart task = Async.RunSynchronously(task, 1)
+    (apply (pure' id) (async.Return 5) |> timeoutStart) = ((async.Return 5) |> timeoutStart) 
+    apply (pure'' id) (async.Return 5) |> timeoutStart = ((async.Return 5) |> timeoutStart) 
 
     // alternative apply fra einar
     // let bind fn value = async.Bind(value, fn)
