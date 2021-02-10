@@ -18,26 +18,29 @@ module Option =
         | Some f, Some x -> Some (f x)
         | _ -> None
 
-    let foo = Some add10 // Some is return here and lifts/returns the function to Some-land 
-    let bar = Some 20  // And we can lift/return 20 to Some-land too
-    let unpackedFoo = apply foo// Then we can apply stuff in some-land
-    unpackedFoo bar 
-
-    let a1 = apply (Some String.length) 
-    a1 (Some "foo")
-    a1 None
-    let a2 = apply (None: (string -> int) option)
-    a2 (Some "foo") 
-    a2 None 
-
     let pure' x = Some x 
-    let foo2 = pure' sumOfString
-    let unpackedFoo2 = apply foo2
-    unpackedFoo2 (pure' "Hei")
+    let pure'' x = None // this will not hold the applicative laws 
+
+    apply (pure' id) (Some 5) = Some 5  // Holds
+    apply (pure'' id) (Some 6) = Some 5 // Fails
+
+    let add10Applied = apply (pure' add10) 
+    add10Applied (pure' 20) 
+
+    let appliedStringLength = apply (pure' String.length) 
+    appliedStringLength (pure' "foo")
+    appliedStringLength None
+    let appliedNoneStringop = apply (None: (string -> int) option)
+    appliedNoneStringop (pure' "foo") 
+    appliedNoneStringop None 
+
+    let appliedSumOfString = apply (pure' sumOfString)
+    appliedSumOfString (pure' "Hei")
 
 
+// We could probably do this for a lot of collections like array and set and I am not sure how many...
+// They would also most likely be very similar
 module List =
-
     // The apply function for lists
     // [f;g] apply [x;y] becomes [f x; f y; g x; g y]
     let apply (fList: ('a->'b) list) (xList: 'a list)  = 
@@ -46,31 +49,33 @@ module List =
               yield f x ]
     
     let pure' x = [x]
+    let pure'' x = [x; x] 
+
+    apply (pure' id) [5] = [5]
+    apply (pure'' id) [5] = [5]
 
     let map' fn = apply (pure' fn)
 
-    let foo = [add10; add20] // We can liftboth these, but not sure this is really lift when we do it with both?
-    let bar = [ 10; 20] // and this too... Not really sure if it is lift/return in the same way
-    
-    let unpackedFoo = apply foo// Then we can apply stuff in some-land
-    unpackedFoo bar 
-    
-    let unpacked2 = apply [String.length; sumOfString]
-    unpacked2 ["hei"; "fooooo"] 
-    unpacked2 (pure' "Hei")
+    apply [add10; add20] [3; 7]
+
+    let add10Applied = apply (pure' add10) 
+    add10Applied (pure' 20) 
 
 module Async = 
 //Borrowed from https://github.com/fsprojects/FSharpPlus/blob/master/src/FSharpPlus/Extensions/Async.fs#L47
     let apply f x = async.Bind (f, fun x1 -> async.Bind (x, fun x2 -> async {return x1 x2}))
 
     let pure' (value : 'a) : Async<'a> = async.Return value
+    let pure'' (value : 'a) : Async<'a> = async { do! Async.Sleep(10) 
+                                                  return value } 
+
+    (apply (pure' id) (async.Return 5) |> Async.RunSynchronously) = ((async.Return 5) |> Async.RunSynchronously) 
+    // This is most likely cheating, because they should be compared before they are 
+    // run and they are most certainly not equal at some point in time when one has completed and the other has not
+    (apply (pure'' id) (async.Return 5) |> Async.RunSynchronously) = ((async.Return 5) |> Async.RunSynchronously) 
 
     // alternative apply fra einar
     // let bind fn value = async.Bind(value, fn)
     //    let apply wrappedFn wrappedValue = wrappedFn |> bind (fun fn -> wrappedValue |> bind (fun value -> pure (fn value)))
-    let foo = pure' add10
-    let unpackedFoo = apply foo 
-
-    let foo2 = pure' sumOfString
-    let unpackedFoo2 = apply foo2
-    unpackedFoo2 (pure' "Hei")
+    let add10Applied = apply (pure' add10) 
+    add10Applied (pure' 20) |> Async.RunSynchronously
