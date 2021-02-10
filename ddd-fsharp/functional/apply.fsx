@@ -22,10 +22,12 @@ module Option =
     let unpackedFoo = apply foo// Then we can apply stuff in some-land
     unpackedFoo bar 
 
-    apply (Some String.length) (Some "foo")
-    apply (None: (string -> int) option)  (Some "foo")
-    apply (Some String.length) None
-    apply (None: (string -> int) option) None 
+    let a1 = apply (Some String.length) 
+    a1 (Some "foo")
+    a1 None
+    let a2 = apply (None: (string -> int) option)
+    a2 (Some "foo") 
+    a2 None 
 
 module List =
 
