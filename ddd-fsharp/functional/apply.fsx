@@ -13,8 +13,8 @@ module Option =
 
     let foo = Some add10 // Some is return here and lifts/returns the function to Some-land 
     let bar = Some 20  // And we can lift/return 20 to Some-land too
-    let unpackedFoo = apply foo
-    unpackedFoo bar // Then we can apply stuff in some-land
+    let unpackedFoo = apply foo// Then we can apply stuff in some-land
+    unpackedFoo bar 
 
 module List =
 
@@ -30,7 +30,7 @@ module List =
     let foo = [add10; add20] // We can lift/return both these, but not sure this is really lift when we do it with both?
     let bar = [ 10; 20] // and this too... Not really sure if it is lift/return in the same way
     
-    let unpackedFoo = apply foo
-    unpackedFoo bar // Then we can apply stuff in some-land
+    let unpackedFoo = apply foo// Then we can apply stuff in some-land
+    unpackedFoo bar 
 
 
