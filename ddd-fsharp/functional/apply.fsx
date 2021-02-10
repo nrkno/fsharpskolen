@@ -71,9 +71,9 @@ module Async =
 
     // This is most likely cheating, because they should be compared before they are 
     // run and they are most certainly not equal at some point in time when one has completed and the other has not
-    let timeoutStart task = Async.RunSynchronously(task, 1)
-    (apply (pure' id) (async.Return 5) |> timeoutStart) = ((async.Return 5) |> timeoutStart) 
-    apply (pure'' id) (async.Return 5) |> timeoutStart = ((async.Return 5) |> timeoutStart) 
+    let runSyncWithTimeout task = Async.RunSynchronously(task, 1)
+    (apply (pure' id) (async.Return 5) |> runSyncWithTimeout) = ((async.Return 5) |> runSyncWithTimeout) 
+    apply (pure'' id) (async.Return 5) |> runSyncWithTimeout = ((async.Return 5) |> runSyncWithTimeout) 
 
     // alternative apply fra einar
     // let bind fn value = async.Bind(value, fn)
