@@ -8,6 +8,7 @@ let add20 x = add 20 x
 
 // it helps thinking of these things as partial applications, small steps...
 let foo = List.map add20
+let sumOfString (s:string) = Array.sumBy int (System.Text.Encoding.ASCII.GetBytes(s))
 
 module Option =
 
@@ -40,17 +41,30 @@ module List =
     
     let pure' x = [x]
 
+    let map' fn = apply (pure' fn)
+
     let foo = [add10; add20] // We can liftboth these, but not sure this is really lift when we do it with both?
     let bar = [ 10; 20] // and this too... Not really sure if it is lift/return in the same way
     
     let unpackedFoo = apply foo// Then we can apply stuff in some-land
     unpackedFoo bar 
+    
+    let unpacked2 = apply [String.length; sumOfString]
+    unpacked2 ["hei"; "fooooo"] 
+    unpacked2 ["Hei"] 
 
 module Async = 
 //Borrowed from https://github.com/fsprojects/FSharpPlus/blob/master/src/FSharpPlus/Extensions/Async.fs#L47
     let apply f x = async.Bind (f, fun x1 -> async.Bind (x, fun x2 -> async {return x1 x2}))
 
-    let foo = async { return add10 }
+    let pure' (value : 'a) : Async<'a> = async.Return value
 
+    // alternative apply fra einar
+    // let bind fn value = async.Bind(value, fn)
+    //    let apply wrappedFn wrappedValue = wrappedFn |> bind (fun fn -> wrappedValue |> bind (fun value -> pure (fn value)))
+    let foo = pure' add10
     let unpackedFoo = apply foo 
 
+    let foo2 = pure' sumOfString
+    let unpackedFoo2 = apply foo2
+    unpackedFoo2 (pure' "Hei")
