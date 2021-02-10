@@ -1,4 +1,8 @@
 // fra https://fsharpforfunandprofit.com/posts/elevated-world/#the-return-function 
+let add y x = x + y
+let add10 x = add 10 x
+let add20 x = add 20 x
+
 module Option =
 
     // The apply function for Options
@@ -6,6 +10,10 @@ module Option =
         match fOpt,xOpt with
         | Some f, Some x -> Some (f x)
         | _ -> None
+
+    let foo = Some add10 
+    let bar = Some 20 
+    apply foo bar 
 
 module List =
 
@@ -16,9 +24,6 @@ module List =
           for x in xList do
               yield f x ]
 
-    let add y x = x + y
-    let add10 x = add 10 x
-    let add20 x = add 20 x
     let foo = [add10; add20]
     let bar = [ 10; 20]
     apply foo bar
