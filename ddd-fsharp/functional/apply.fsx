@@ -22,6 +22,11 @@ module Option =
     let unpackedFoo = apply foo// Then we can apply stuff in some-land
     unpackedFoo bar 
 
+    apply (Some String.length) (Some "foo")
+    apply (None: (string -> int) option)  (Some "foo")
+    apply (Some String.length) None
+    apply (None: (string -> int) option) None 
+
 module List =
 
     // The apply function for lists
@@ -31,9 +36,9 @@ module List =
           for x in xList do
               yield f x ]
     
-    let return' x = [x]
+    let pure' x = [x]
 
-    let foo = [add10; add20] // We can lift/return both these, but not sure this is really lift when we do it with both?
+    let foo = [add10; add20] // We can liftboth these, but not sure this is really lift when we do it with both?
     let bar = [ 10; 20] // and this too... Not really sure if it is lift/return in the same way
     
     let unpackedFoo = apply foo// Then we can apply stuff in some-land
@@ -46,3 +51,4 @@ module Async =
     let foo = async { return add10 }
 
     let unpackedFoo = apply foo 
+
