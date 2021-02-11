@@ -71,6 +71,11 @@ module Option =
 
     let map' fn = apply (pure' fn)
 
+    // We transofrm sumOfString from a (string->int) to a option string -> option int 
+    let mappedSumOfString = map' sumOfString
+    mappedSumOfString (Some "Hei")
+
+
 // We could probably do this for a lot of collections like array and set and I am not sure how many...
 // They would also most likely be very similar, so we pick lists
 module List =
