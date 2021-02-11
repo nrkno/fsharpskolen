@@ -8,8 +8,9 @@
 
 // Takes a string and returns a list of its charcodes 
 // This is a function from a -> E<b> with a being a string, E the list world and b int
-let sumOfString (s:string) = Array.map int (System.Text.Encoding.ASCII.GetBytes(s)) |> Array.toList
-sumOfString "foo"
+let stringToCharcodes (s:string) = Array.map int (System.Text.Encoding.ASCII.GetBytes(s)) |> Array.toList
+stringToCharcodes "foo"
+
 
 
 module Option = 
@@ -33,3 +34,4 @@ module List =
 // og asynk
 module Async =
     let bind fn value = async.Bind(value, fn)
+
