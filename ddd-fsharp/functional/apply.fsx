@@ -13,7 +13,14 @@ let sumOfString (s:string) = Array.sumBy int (System.Text.Encoding.ASCII.GetByte
 
 // It helps thinking of these things as partial applications, small steps...
 // For me it clicked a bit thinking of partial application of map instead of "using the map on a list" 
+// Here map takes a function from (int -> int) and makes a List<int> -> List<int>
 let foo = List.map add20
+
+// Here map takes a function from (string-> int) and makes a List<string> -> List<int>
+let bar = List.map sumOfString 
+
+// Let us see more examples of how we do this with pure and apply
+// And build map from these primitives
 
 module Option =
     // a -> E<a>, lifts a single value to the elevated world
