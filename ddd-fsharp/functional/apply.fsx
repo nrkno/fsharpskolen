@@ -118,3 +118,20 @@ module Async =
 
     let add10Applied = apply (pure' add10) 
     add10Applied (pure' 20) |> Async.RunSynchronously
+
+    let map' fn = apply (pure' fn)
+
+    // Map lifts a function (a->b) to E<a> -> E<b> 
+    // In this case we take (string->int) to Async<string> -> Async<int>
+    // Map sumOfString from (string -> int) to Async<string> -> Async<int>
+    let asyncSum = map' sumOfString
+
+    let getPing = async {
+        let httpClient = new System.Net.Http.HttpClient()
+        let! response = httpClient.GetAsync("https://psapi.nrk.no/ping") |> Async.AwaitTask
+        response.EnsureSuccessStatusCode () |> ignore
+        let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+        return content
+    } 
+
+    getPing |> asyncSum |> Async.RunSynchronously 
