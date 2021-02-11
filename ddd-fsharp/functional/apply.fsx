@@ -1,7 +1,7 @@
 // fra https://fsharpforfunandprofit.com/posts/elevated-world/#the-return-function 
 
 // This little page will introduce apply and pure and combine them to map
-// For Options, Lists and Async
+// for Options, Lists and Async
 
 // Just some normal functions to start with
 let add y x = x + y
@@ -59,22 +59,23 @@ module Option =
     let add10Applied = apply (pure' add10) 
     add10Applied (pure' 20) 
 
-    let appliedStringLength = apply (pure' String.length) 
-    appliedStringLength (pure' "foo")
-    appliedStringLength None
+    let appliedPureStringLength = apply (pure' String.length) 
+    appliedPureStringLength (pure' "foo")
+    appliedPureStringLength None
     let appliedNoneStringop = apply (None: (string -> int) option)
     appliedNoneStringop (pure' "foo") 
     appliedNoneStringop None 
 
-    let appliedSumOfString = apply (pure' sumOfString) // E<string> -> E<int>
-    appliedSumOfString (pure' "Hei")
+    let appliedPureSumOfString = apply (pure' sumOfString) // E<string> -> E<int>
+    appliedPureSumOfString (pure' "Hei")
+    // But was not the applied pure sum of string not just a map?
+    // Yup
 
     let map' fn = apply (pure' fn)
 
-    // We transofrm sumOfString from a (string->int) to a option string -> option int 
+    // We transform sumOfString from a (string->int) to a string option -> int option
     let mappedSumOfString = map' sumOfString
     mappedSumOfString (Some "Hei")
-
 
 // We could probably do this for a lot of collections like array and set and I am not sure how many...
 // They would also most likely be very similar, so we pick lists
@@ -100,10 +101,10 @@ module List =
 
     // Lifts the (int->int) to List world with pure to be a List<(int->int)>
     // Then applies it and it turns into a List<int> -> List<int>
-    let add10Applied = apply (pure' add10) // E<int> -> E<int>
+    let appliedPureAdd10 = apply (pure' add10) // E<int> -> E<int>
 
-    add10Applied (pure' 20) 
-    add10Applied [1; 2; 3] // But this is map! 
+    appliedPureAdd10 (pure' 20) 
+    appliedPureAdd10 [1; 2; 3] // But this is map! 
 
     // So let us make map with apply and pure
     let map' fn = apply (pure' fn)
@@ -131,8 +132,8 @@ module Async =
     // let bind fn value = async.Bind(value, fn)
     // let apply wrappedFn wrappedValue = wrappedFn |> bind (fun fn -> wrappedValue |> bind (fun value -> pure (fn value)))
 
-    let add10Applied = apply (pure' add10) 
-    add10Applied (pure' 20) |> Async.RunSynchronously
+    let appliedPureAdd10 = apply (pure' add10) 
+    appliedPureAdd10 (pure' 20) |> Async.RunSynchronously
 
     let map' fn = apply (pure' fn)
 
