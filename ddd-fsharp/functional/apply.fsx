@@ -117,16 +117,25 @@ module Async =
     // In this case
     // a -> Async<a>, lifts a single value to the async world
     let pure' (value : 'a) : Async<'a> = async.Return value
-    let notpure (value : 'a) : Async<'a> = async { do! Async.Sleep(10)
-                                                   return value}
+    let pure'' (value : 'a) : Async<'a> = async { do! Async.Sleep(10)
+                                                  return value}
 
     //Apply is Borrowed from https://github.com/fsprojects/FSharpPlus/blob/master/src/FSharpPlus/Extensions/Async.fs#L47
     let apply f x = async.Bind (f, fun x1 -> async.Bind (x, fun x2 -> async {return x1 x2}))
 
+    // THIS IS CHEATING! We can not just escape async land.
+    // The two implementations are valid in asyncland, even though there are ways to force them back into
+    // sync land they might not be legal.
+
+    //https://twitter.com/mathiasverraes/status/1359788748159012871
+
+    // I commented the code out, you can run it with and without timeout, but be aware
+    // that the equality checks to not really make sense from an async perspective 
+    // let runSyncWithTimeout task = Async.RunSynchronously(task, 1)
+    // (apply (pure' id) (async.Return 5) |> runSyncWithTimeout) = ((async.Return 5) |> runSyncWithTimeout) 
+
+    // apply (pure'' id) (async.Return 5) |> runSyncWithTimeout = ((async.Return 5) |> runSyncWithTimeout) 
     // Set up the timeout is 1ms to help explain why they are not similar, even it they at some point in time will be
-    let runSyncWithTimeout task = Async.RunSynchronously(task, 1)
-    (apply (pure' id) (async.Return 5) |> runSyncWithTimeout) = ((async.Return 5) |> runSyncWithTimeout) 
-    apply (notpure id) (async.Return 5) |> runSyncWithTimeout = ((async.Return 5) |> runSyncWithTimeout) 
 
     // alternative apply fra einar
     // let bind fn value = async.Bind(value, fn)
