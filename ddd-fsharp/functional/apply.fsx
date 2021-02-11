@@ -19,6 +19,9 @@ let foo = List.map add20
 // Here map takes a function from (string-> int) and makes a List<string> -> List<int>
 let bar = List.map sumOfString 
 
+// That is an example of (a->b) being transformed to E<a> to E<b>
+// where E is a list and a is string or int in the examples and b is an int
+
 // Let us see more examples of how we do this with pure and apply
 // And build map from these primitives
 
