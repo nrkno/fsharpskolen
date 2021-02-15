@@ -1,3 +1,62 @@
+module Result =
+    let pure' (value : 'a) : Result<'a, 'e> = Ok value
+
+    let apply1 (wrappedFn: Result<'a -> 'b, 'e>) (wrappedValue: Result<'a, 'e>) : Result<'b, 'e> =
+        match wrappedFn, wrappedValue with
+        | Ok fn, Ok value -> pure' (fn value)
+        | Error e1, _ -> Error e1
+        | _, Error e2 -> Error e2
+
+    let createApply (errorAggregator: 'e -> 'e -> 'e): Result<'a -> 'b, 'e> -> Result<'a, 'e> -> Result<'b, 'e> = 
+        fun (wrappedFn: Result<'a -> 'b, 'e>) (wrappedValue: Result<'a, 'e>) ->
+            match wrappedFn, wrappedValue with
+            | Ok fn, Ok value -> pure' (fn value)
+            | Error e1, Error e2 -> Error (errorAggregator e1 e2)
+            | Error e1, _ -> Error e1
+            | _, Error e2 -> Error e2
+    
+    //let apply2 = createApply +
+
+    let map (f : 'a -> 'b) (wrappedValue : Result<'a, 'e>) : Result<'b, 'e> =
+        apply1 (pure' f) wrappedValue
+
+    let map' (f : 'a -> 'b) : Result<'a, 'e> -> Result<'b, 'e> =
+        apply1 (pure' f)
+
+    let rec traverse (worldCrossingFunction: 'c -> Result<'d, 'e>) (lst: 'c list) : Result<'d list, 'e> =
+        let cons h t = h :: t
+        match lst with
+        | [] -> pure' []
+        | h :: t -> 
+            let headResult: Result<'d, 'e> = worldCrossingFunction h
+            let tailResult: Result<'d list, 'e> = traverse worldCrossingFunction t
+            apply1 (apply1 (pure' cons) headResult) tailResult
+            // match (headResult, tailResult) with
+            // | Ok newHead, Ok newTail ->
+            //     pure' (cons newHead newTail)
+            // | Error e1, _ -> Error e1
+            // | _, Error e2 -> Error e2
+    
+
+let howDoYouFeel person : Result<bool,string> =
+    match person with
+    | 1 -> Error "hva sa du"
+    | 2 -> Ok true
+    | 3 -> Ok true
+    | 4 -> Ok false
+    | 5 -> Error "muted"
+
+ 
+
+[1;2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
+[2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
+[2;3;4] |> Result.traverse howDoYouFeel |> printfn "%A"
+
+Result.pure' 5 |> printfn "%A"
+Result.apply1 (Result.pure' id) (Ok 5) = Ok 5 |> printfn "%A"
+Result.apply1 (Result.pure' (fun x -> x + 5)) (Ok 5) |> printfn "%A"
+
+
 module Option = 
     let pure (value : 'a) : 'a option = Some value 
     
