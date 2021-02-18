@@ -1,3 +1,5 @@
+// https://fsharpforfunandprofit.com/posts/elevated-world-4/#traverse
+
 module Result =
     let pure' (value : 'a) : Result<'a, 'e> = Ok value
 
@@ -31,7 +33,18 @@ module Result =
             let headResult: Result<'d, 'e> = worldCrossingFunction h
             let tailResult: Result<'d list, 'e> = traverse worldCrossingFunction t
             apply1 (apply1 (pure' cons) headResult) tailResult
-            // match (headResult, tailResult) with
+
+    let appendString s1 s2 = s1 + s2
+    let apply2 (wrappedFn: Result<'a -> 'b, 'e>) (wrappedValue: Result<'a, 'e>) : Result<'b, 'e> = createApply appendString 
+    let rec traverse2 (worldCrossingFunction: 'c -> Result<'d, 'e>) (lst: 'c list) : Result<'d list, 'e> =
+        let cons h t = h :: t
+        match lst with
+        | [] -> pure' []
+        | h :: t -> 
+            let headResult: Result<'d, 'e> = worldCrossingFunction h
+            let tailResult: Result<'d list, 'e> = traverse2 worldCrossingFunction t
+            apply2 (apply2 (pure' cons) headResult) tailResult
+             // match (headResult, tailResult) with
             // | Ok newHead, Ok newTail ->
             //     pure' (cons newHead newTail)
             // | Error e1, _ -> Error e1
@@ -51,6 +64,11 @@ let howDoYouFeel person : Result<bool,string> =
 [1;2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
 [2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
 [2;3;4] |> Result.traverse howDoYouFeel |> printfn "%A"
+
+[1;2;3;4;5] |> Result.traverse2 howDoYouFeel |> printfn "%A"
+[2;3;4;5] |> Result.traverse2 howDoYouFeel |> printfn "%A"
+[2;3;4] |> Result.traverse2 howDoYouFeel |> printfn "%A"
+
 
 Result.pure' 5 |> printfn "%A"
 Result.apply1 (Result.pure' id) (Ok 5) = Ok 5 |> printfn "%A"
