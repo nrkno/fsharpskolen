@@ -17,8 +17,6 @@ module Result =
             | Error e1, _ -> Error e1
             | _, Error e2 -> Error e2
     
-    //let apply2 = createApply +
-
     let map (f : 'a -> 'b) (wrappedValue : Result<'a, 'e>) : Result<'b, 'e> =
         apply1 (pure' f) wrappedValue
 
@@ -34,21 +32,29 @@ module Result =
             let tailResult: Result<'d list, 'e> = traverse worldCrossingFunction t
             apply1 (apply1 (pure' cons) headResult) tailResult
 
-    let appendString s1 s2 = s1 + s2
-    let apply2 (wrappedFn: Result<'a -> 'b, 'e>) (wrappedValue: Result<'a, 'e>) : Result<'b, 'e> = createApply appendString 
-    let rec traverse2 (worldCrossingFunction: 'c -> Result<'d, 'e>) (lst: 'c list) : Result<'d list, 'e> =
+    let appendString s1 s2 : string = s1 + ";" +  s2
+    let appendList l1 l2 = l1 @ l2
+    //let apply2 : Result<'a -> 'b, string> -> Result<'a, string> -> Result<'b, string> = createApply appendString
+    let apply2 (wrappedFn: Result<'a -> 'b, string>) (wrappedValue: Result<'a, string>) : Result<'b, string> = createApply appendString wrappedFn wrappedValue
+    // let apply3 = createApply appendList
+
+    let rec traverse2 (worldCrossingFunction: 'c -> Result<'d, string>) (lst: 'c list) : Result<'d list, string>=
         let cons h t = h :: t
         match lst with
         | [] -> pure' []
         | h :: t -> 
-            let headResult: Result<'d, 'e> = worldCrossingFunction h
-            let tailResult: Result<'d list, 'e> = traverse2 worldCrossingFunction t
-            apply2 (apply2 (pure' cons) headResult) tailResult
+            let headResult : Result<'d, string> = worldCrossingFunction h
+            let tailResult : Result<'d list, string> = traverse2 worldCrossingFunction t
+            let pureCons = (pure' cons)
+            apply2 (apply2 pureCons headResult) tailResult
              // match (headResult, tailResult) with
             // | Ok newHead, Ok newTail ->
             //     pure' (cons newHead newTail)
             // | Error e1, _ -> Error e1
             // | _, Error e2 -> Error e2
+
+    // let craete
+    // 'c -> Result<'d, 'e>) (lst: 'c list) : Result<'d list, 'e> 
     
 
 let howDoYouFeel person : Result<bool,string> =
@@ -59,21 +65,21 @@ let howDoYouFeel person : Result<bool,string> =
     | 4 -> Ok false
     | 5 -> Error "muted"
 
- 
+"traverse, howDoYouFeel" |> printfn "%s" 
 
 [1;2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
 [2;3;4;5] |> Result.traverse howDoYouFeel |> printfn "%A"
 [2;3;4] |> Result.traverse howDoYouFeel |> printfn "%A"
 
+"traverse2, howDoYouFeel" |> printfn "%s"
+
 [1;2;3;4;5] |> Result.traverse2 howDoYouFeel |> printfn "%A"
 [2;3;4;5] |> Result.traverse2 howDoYouFeel |> printfn "%A"
 [2;3;4] |> Result.traverse2 howDoYouFeel |> printfn "%A"
 
-
 Result.pure' 5 |> printfn "%A"
 Result.apply1 (Result.pure' id) (Ok 5) = Ok 5 |> printfn "%A"
 Result.apply1 (Result.pure' (fun x -> x + 5)) (Ok 5) |> printfn "%A"
-
 
 module Option = 
     let pure (value : 'a) : 'a option = Some value 
