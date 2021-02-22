@@ -1,7 +1,7 @@
 module Order
 open Folly
+open Fimmy
 open Async
-let randomGenerator = System.Random()
 
 type ProductId = ProductId of int
 
@@ -64,9 +64,6 @@ let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
     
     let qtyInStock = stock line.pid
     // raise System.Net.Sockets.SocketException(errorCode: 10013)
-    let randomNum = randomGenerator.Next(10)
-    if randomNum > 8 then
-        failwith "Network error"
 
     match line.quantity, qtyInStock with
     | Weight wOrder, Weight wStock ->
@@ -84,7 +81,7 @@ let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
 
               
 let isEnoughInStockRobustVersion (tries: int) (line: CheckedOrderLine): Result<Unit, StockError> =
-    Folly.retryStrategy tries isEnoughInStock line
+    Folly.retryStrategy tries (Fimmy.introduceError 80 isEnoughInStock) line
 
 let passthru (deadEndFunc: ('a -> Result<Unit, 'err>)) (el: 'a): Result<'a, 'err> =
     match deadEndFunc el with
