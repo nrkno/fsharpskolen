@@ -1,4 +1,7 @@
 module Order
+open Folly
+open Async
+let randomGenerator = System.Random()
 
 type ProductId = ProductId of int
 
@@ -38,7 +41,11 @@ let catalog (pid: ProductId): Async<string option> =
           (ProductId 757, "grøt")
           (ProductId 99834, "pepperkaker") ]
 
-    async.Return (
+    let randomNum = randomGenerator.Next(10)
+    if randomNum > 5 then
+        Async.map (fun () -> failwith "Network error") (Async.Sleep 1000)
+    else 
+        async.Return (
             products
             |> List.tryPick (fun (i, name) -> if i = pid then Some name else None))
 
@@ -54,7 +61,12 @@ let stock pid: Quantity =
     stocks |> List.find (fun (i, _) -> i = pid) |> snd
 
 let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
+    
     let qtyInStock = stock line.pid
+    // raise System.Net.Sockets.SocketException(errorCode: 10013)
+    let randomNum = randomGenerator.Next(10)
+    if randomNum > 8 then
+        failwith "Network error"
 
     match line.quantity, qtyInStock with
     | Weight wOrder, Weight wStock ->
@@ -70,14 +82,15 @@ let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
             <| NotEnoughInStockError "Har ikke mange nok"
     | _ -> Error <| UnitMismatch "Blandet vekt og antall"
 
+              
+let isEnoughInStockRobustVersion (tries: int) (line: CheckedOrderLine): Result<Unit, StockError> =
+    Folly.retryStrategy tries isEnoughInStock line
+
 let passthru (deadEndFunc: ('a -> Result<Unit, 'err>)) (el: 'a): Result<'a, 'err> =
     match deadEndFunc el with
     | Ok _ -> Ok el
     | Error m -> Error m
 
-module Async =
-    let map f computation =
-        async.Bind(computation, f >> async.Return)
 
 let checkOrderLine
     (catalog: ProductId -> Async<string option>)
@@ -98,6 +111,9 @@ let checkOrderLine
 
     Async.map (f pid quantity) computation
 
+let checkOrderLineRobustVersion (tries: int) (catalog: ProductId -> Async<string option>) (uncheckedOrderline: UncheckedOrderLine) : Async<Result<CheckedOrderLine, ValidationError>> =
+    Folly.retryStrategy tries (checkOrderLine catalog) uncheckedOrderline
+
 let prepend firstR restR =
     match firstR, restR with
         | Ok first, Ok rest -> Ok (first::rest)
@@ -111,11 +127,11 @@ let sequence aListOfResults =
 
 let validateOrderLines (catalog: ProductId -> Async<string option>) order =
     let orderCheck line =
-        checkOrderLine catalog line
+        (checkOrderLineRobustVersion 3) catalog line
         |> Async.map (Result.mapError ValidationError)
 
     let stockCheck line =
-        passthru isEnoughInStock line
+        passthru (isEnoughInStockRobustVersion 3) line
         |> Result.mapError StockError
 
     order
@@ -132,7 +148,7 @@ let getAllOkOrderLines
 
     let okLines =
         result
-        |> Async.Parallel
+        |> Async.Sequential
         |> Async.map Array.toList 
         |> Async.map (List.filter
             (fun line ->

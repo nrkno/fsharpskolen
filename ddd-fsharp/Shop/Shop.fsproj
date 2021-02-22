@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Async.fs" />
+    <Compile Include="Folly.fs" />
     <Compile Include="Order.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
