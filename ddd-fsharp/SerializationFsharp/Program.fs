@@ -33,7 +33,7 @@ let main argv =
         PersonDtoBuilder.create
         |> PersonDtoBuilder.withFirstname "Anders"
         |> PersonDtoBuilder.withLastname "Åsebø"
-        |> PersonDtoBuilder.withBirthdate "27.08.1899"
+        |> PersonDtoBuilder.withBirthdate "27.08.1999"
         |> PersonDtoBuilder.serialized
     
     jsonPerson |> printfn "%A"

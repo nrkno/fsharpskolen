@@ -1,13 +1,14 @@
 ﻿module SerializationFsharp.PersonDomainBuilder
 
 open System
+open System.Globalization
 open SerializationFsharp.Domain
 
 let create : Person =
     {
         First = String50 "Firstname" 
         Last = String50 "Lastname" 
-        Birthdate = Birthdate (DateTime.Parse "27.08.1993" )
+        Birthdate = Birthdate (DateTime.Parse("27.08.1993", CultureInfo("nb-NO")))
     }
 
 let withFirstname (name:string) (domain: Person): Person =
