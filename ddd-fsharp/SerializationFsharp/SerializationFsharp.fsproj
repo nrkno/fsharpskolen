@@ -2,13 +2,14 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Json.fs" />
-        <Compile Include="Dto.fs" />
+        <Compile Include="Newtonsoft.fs" />
+        <Compile Include="TextJson.fs" />
         <Compile Include="Domain.fs" />
+        <Compile Include="Dto.fs" />
         <Compile Include="Mapper.fs" />
         <Compile Include="PersonDomainBuilder.fs" />
         <Compile Include="PersonDtoBuilder.fs" />

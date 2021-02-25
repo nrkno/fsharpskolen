@@ -3,6 +3,7 @@
 open System
 open System.Globalization
 open Dto
+open TextJson 
 
 let create : PersonDto =
     {
@@ -22,4 +23,4 @@ let withBirthdate (date:string) (dto: PersonDto) : PersonDto =
 
 let serialized dto =
     dto
-    |> Json.serialize
+    |> serialize

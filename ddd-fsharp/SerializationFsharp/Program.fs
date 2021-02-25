@@ -2,6 +2,7 @@
 open SerializationFsharp
 open SerializationFsharp.Domain
 open SerializationFsharp.Dto
+open TextJson 
 
 type DtoError =
     | ValidationError of string
@@ -10,12 +11,12 @@ type DtoError =
 let jsonFromDomain (person:Person) =
     person
     |> Mapper.fromDomain
-    |> Json.serialize
+    |> serialize
     
 let jsonToDomain (jsonString: string) : Result<Person,DtoError> =
     let deserializedValue =
         jsonString
-        |> Json.deserialize<PersonDto>
+        |> deserialize
     
     match deserializedValue with
     | Ok s ->

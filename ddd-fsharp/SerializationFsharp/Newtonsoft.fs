@@ -1,6 +1,6 @@
-﻿module SerializationFsharp.Json
-
+module Newtonsoft
 open Newtonsoft.Json
+
 let serialize obj =
     JsonConvert.SerializeObject obj
 let deserialize<'a> str =
