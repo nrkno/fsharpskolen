@@ -10,7 +10,10 @@
     <Compile Include="Folly.fs" />
     <Compile Include="Order.fs" />
     <Compile Include="OrderDto.fs" />
+    <Compile Include="Deserializer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+   <ItemGroup>
+     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+   </ItemGroup>
 </Project>

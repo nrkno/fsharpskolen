@@ -42,7 +42,7 @@ let catalog (pid: ProductId): Async<string option> =
           (ProductId 99834, "pepperkaker") ]
 
     let randomNum = randomGenerator.Next(10)
-    if randomNum > 5 then
+    if randomNum > 500 then
         Async.map (fun () -> failwith "Network error") (Async.Sleep 1000)
     else
         async.Return (
