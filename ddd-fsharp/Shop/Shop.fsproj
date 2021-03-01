@@ -9,6 +9,7 @@
     <Compile Include="Async.fs" />
     <Compile Include="Folly.fs" />
     <Compile Include="Order.fs" />
+    <Compile Include="OrderDto.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

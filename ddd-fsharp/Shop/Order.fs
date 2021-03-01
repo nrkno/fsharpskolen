@@ -44,7 +44,7 @@ let catalog (pid: ProductId): Async<string option> =
     let randomNum = randomGenerator.Next(10)
     if randomNum > 5 then
         Async.map (fun () -> failwith "Network error") (Async.Sleep 1000)
-    else 
+    else
         async.Return (
             products
             |> List.tryPick (fun (i, name) -> if i = pid then Some name else None))
@@ -61,7 +61,7 @@ let stock pid: Quantity =
     stocks |> List.find (fun (i, _) -> i = pid) |> snd
 
 let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
-    
+
     let qtyInStock = stock line.pid
     // raise System.Net.Sockets.SocketException(errorCode: 10013)
     let randomNum = randomGenerator.Next(10)
@@ -82,7 +82,7 @@ let isEnoughInStock (line: CheckedOrderLine): Result<Unit, StockError> =
             <| NotEnoughInStockError "Har ikke mange nok"
     | _ -> Error <| UnitMismatch "Blandet vekt og antall"
 
-              
+
 let isEnoughInStockRobustVersion (tries: int) (line: CheckedOrderLine): Result<Unit, StockError> =
     Folly.retryStrategy tries isEnoughInStock line
 
@@ -149,7 +149,7 @@ let getAllOkOrderLines
     let okLines =
         result
         |> Async.Sequential
-        |> Async.map Array.toList 
+        |> Async.map Array.toList
         |> Async.map (List.filter
             (fun line ->
                 match line with
@@ -163,7 +163,7 @@ let getAllOkOrderLines
             |> Error
         else
             sequence linesOk
-    
+
     okLines |> Async.map temp
 
 // All lines must be ok.
@@ -175,4 +175,4 @@ let checkAllOrderLinesOk
     |> validateOrderLines catalog
     |> Async.Parallel
     |> Async.map Array.toList
-    |> Async.map sequence 
+    |> Async.map sequence
