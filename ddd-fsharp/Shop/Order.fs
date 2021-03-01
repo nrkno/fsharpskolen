@@ -1,6 +1,7 @@
 module Order
 open Folly
 open Async
+open System 
 let randomGenerator = System.Random()
 
 type ProductId = ProductId of int
@@ -25,9 +26,11 @@ type StockError =
     | NotEnoughInStockError of string
     | UnitMismatch of string
 
+type JsonParseException = ParseException of Exception | DtoConvertError of string
 type OrderLineError =
     | ValidationError of ValidationError
     | StockError of StockError
+    | JsonParseException of JsonParseException 
 
 //type Order =
 //    | Checked of CheckedOrder
