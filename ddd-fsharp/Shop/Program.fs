@@ -42,7 +42,8 @@ let main argv =
             | NotEnoughInStockError msg -> printfn "Hadde ikke nok %s" msg
             | UnitMismatch msg -> printfn "Helt på trynet %s" msg
 
-    let foo = """ {"lines" : [ { "pid": "100", "quantity": { "unit": "number", amount: 10}}], "address": { "name" : "bjartwolf", "addressLine1": "skogen 123", "addressLine2": null, "postalCode": 1239}} """ 
+   //let foo = """ {"lines" : [ { "pid": "100", "quantity": { "unit": "number", amount: 10}}], "address": { "name" : "bjartwolf", "addressLine1": "skogen 123", "addressLine2": null, "postalCode": 1239}} """ 
+    let foo = """ {"lines" : [ { "pid": "173", "quantity": { "unit": "number", amount: 5}}], "address": { "name" : "bjartwolf", "addressLine1": "skogen 123", "addressLine2": null, "postalCode": 1239}} """ 
 
     let bar = deserialize<OrderDto.OrderDto> foo |> Result.map OrderDto.toDomain // fjerne  en result med funksjonell magi? noe result.apply id aktig? det virker kanskje ikke med ex og string uansett?
     let baz = match bar with
