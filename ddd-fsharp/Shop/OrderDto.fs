@@ -1,6 +1,7 @@
 module OrderDto
 
 open Order
+open System
 
 // Bare bruk ting som har en direkte gjenpart i JSON
 // Records er greit => JSON object
@@ -29,7 +30,7 @@ type AddressDto = {
 }
 
 type OrderDto = {
-    lines: OrderLineDto list
+    lines: OrderLineDto array
     address: AddressDto
 }
 
@@ -45,6 +46,55 @@ let processLine (line: OrderLineDto): Result<UncheckedOrderLine, string> =
     | Error e -> Error e
 
 let toDomain (orderDto: OrderDto) : Result<UncheckedOrder, string> =
-    orderDto.lines
-    |> List.map processLine
-    |> sequence
+    let orderLines =
+        orderDto.lines
+        |> Array.map processLine
+        |> List.ofArray
+        |> sequence
+
+    let addrDto = orderDto.address
+    let address: UncheckedAddress = {
+        name = addrDto.name
+        addressLine1 = addrDto.addressLine1
+        addressLine2 = addrDto.addressLine2
+        postalCode = addrDto.postalCode
+    }
+
+    orderLines 
+    |> Result.bind (fun orderLines -> Ok {
+        lines = orderLines
+        address = address
+    }) 
+
+let toQuantityDto (quantity : Quantity) : QuantityDto =
+    match quantity with
+    | Weight amount ->
+        {
+            unit = "kg"
+            amount = double amount
+        }
+    | Units amount ->
+        {
+            unit = "number"
+            amount = double amount
+        }
+
+let toOrderLineDto (line:UncheckedOrderLine ): OrderLineDto =
+    {
+        pid = ProductId.value line.pid
+        quantity = toQuantityDto line.quantity
+    }
+
+let toUncheckedOrderDto (order : UncheckedOrder) : OrderDto = 
+    {
+        lines =
+            order.lines
+            |> List.map toOrderLineDto
+            |> Array.ofList
+        address = {
+            name = order.address.name
+            addressLine1 = order.address.addressLine1
+            addressLine2 = order.address.addressLine2
+            postalCode = order.address.postalCode
+        }
+    }

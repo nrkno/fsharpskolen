@@ -5,6 +5,10 @@ let randomGenerator = System.Random()
 
 type ProductId = ProductId of int
 
+module ProductId =
+    let value (ProductId pid) =
+        pid
+
 type Quantity =
     | Weight of int
     | Units of int
@@ -16,8 +20,19 @@ type CheckedOrderLine =
       name: string
       quantity: Quantity }
 
-type UncheckedAddress = UncheckedAddress of string
-type UncheckedOrder = UncheckedOrderLine list
+type UncheckedAddress = {
+    name : string
+    addressLine1 : string
+    addressLine2 : string option
+    postalCode : string
+}
+//UncheckedAddress of string
+
+type UncheckedOrder = {
+    lines : UncheckedOrderLine list
+    address : UncheckedAddress
+}
+
 type CheckedOrder = CheckedOrderLine list
 type ValidationError = ValidationErrorMessage of string
 
@@ -42,7 +57,7 @@ let catalog (pid: ProductId): Async<string option> =
           (ProductId 99834, "pepperkaker") ]
 
     let randomNum = randomGenerator.Next(10)
-    if randomNum > 5 then
+    if randomNum > 10 then
         Async.map (fun () -> failwith "Network error") (Async.Sleep 1000)
     else
         async.Return (
@@ -142,7 +157,7 @@ let getAllOkOrderLines
     (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
     : Async<Result<CheckedOrder, OrderLineError>> =
-    let result: Async<Result<CheckedOrderLine, OrderLineError>> list = validateOrderLines catalog order
+    let result: Async<Result<CheckedOrderLine, OrderLineError>> list = validateOrderLines catalog order.lines
 
     // [Async<Result<CheckedOrderLine, OrderLineError>>;Async<Result<CheckedOrderLine, OrderLineError>>;Async<Result<CheckedOrderLine, OrderLineError>>]
 
@@ -171,7 +186,7 @@ let checkAllOrderLinesOk
     (catalog: ProductId -> Async<string option>)
     (order: UncheckedOrder)
     : Async<Result<CheckedOrder, OrderLineError>> =
-    order
+    order.lines
     |> validateOrderLines catalog
     |> Async.Parallel
     |> Async.map Array.toList
