@@ -12,6 +12,14 @@ let stringToCharcodes (s:string) = Array.map int (System.Text.Encoding.ASCII.Get
 stringToCharcodes "foo"
 
 
+module Lazy
+    let bind (f: ('a -> (unit -> 'b))) (x: unit -> 'a) : (unit -> 'a) -> (unit -> 'b) = 
+        fun (foo: (unit -> 'a)) -> let a = foo()
+                                   f a
+
+
+    let beb = timebomb "kensentme" |> bind strangeAdd10 (pure' 13)
+    beb ()
 
 module Option = 
 
