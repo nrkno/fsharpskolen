@@ -37,10 +37,17 @@ module Lazy =
 // hm, litt vrien. det er jo riktig sånn på en måte, men det blir jo forskjellige funksjoner og de har jo ikke equal
     apply (pure' id) (pure' 5) = pure' 5
     let map' fn = apply (pure' fn)
+
+    let bomb x : int = if (x < 10) then 
+                            failwith "toosmall"
+                       else 
+                            3
     
     let lazyAdd10 = map' add10
+    let lazyBomb = map' bomb
     let lazy5 = pure' 5
     lazyAdd10 (pure' 5)
+    lazyAdd10 (lazyBomb (pure' 5))
 
 module Option =
 
