@@ -41,7 +41,6 @@ module Lazy =
     let lazyAdd10 = map' add10
     let lazy5 = pure' 5
     lazyAdd10 (pure' 5)
-    map' lazyAdd10
 
 module Option =
 
