@@ -18,8 +18,7 @@ module Lazy
                                    f a
 
 
-    let beb = timebomb "kensentme" |> bind strangeAdd10 (pure' 13)
-    beb ()
+    (getPassword 11 |> bind timebomb ) ()
 
 module Option = 
 
