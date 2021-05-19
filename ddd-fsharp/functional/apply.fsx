@@ -25,7 +25,25 @@ let bar = List.map sumOfString
 // Let us see more examples of how we do this with pure and apply
 // And build map from these primitives
 
+module Lazy =
+    let pure' x = fun () -> x  
+    let apply f x = let value = x()
+                    let myFunc = f()
+                    myFunc value
+
+    apply (pure' add10) (pure' 5)
+
+// hm, litt vrien. det er jo riktig sånn på en måte, men det blir jo forskjellige funksjoner og de har jo ikke equal
+    apply (pure' id) (pure' 5) = pure' 5
+    let map' fn = apply (pure' fn)
+    
+    let lazyAdd10 = map' add10
+    let lazy5 = pure' 5
+    lazyAdd10 (pure' 5)
+    map' lazyAdd10
+
 module Option =
+
     // a -> E<a>, lifts a single value to the elevated world
     // In this case
     // a -> Some<a>, lifts a single value to the option world
