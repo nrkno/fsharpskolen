@@ -48,7 +48,7 @@ module Lazy =
                         if (password = "kensentme") then 
                             fun () -> 100 
                         else 
-                            fun () -> failwith "toosmall"
+                            fun () -> failwith "wrongpassword"
      
     let lazyAdd10 = map' add10
     let lazyBomb = map' bomb

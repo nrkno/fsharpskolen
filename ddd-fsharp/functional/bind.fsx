@@ -18,7 +18,8 @@ module Lazy
                                    f a
 
 
-    (getPassword 11 |> bind timebomb ) ()
+    (getPassword 11 |> bind timebomb |> map' add10) ()
+    (getPassword 1 |> bind timebomb |> map' add10) ()
 
 module Option = 
 
