@@ -27,9 +27,10 @@ let bar = List.map sumOfString
 
 module Lazy =
     let pure' x = fun () -> x  
-    let apply f x = let value = x()
-                    let myFunc = f()
-                    fun () -> myFunc value
+    let apply f x = fun () -> 
+                        let value = x()
+                        let myFunc = f()
+                        myFunc value
 
     apply (pure' add10) (pure' 5)
 
