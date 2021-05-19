@@ -13,7 +13,7 @@ stringToCharcodes "foo"
 
 
 module Lazy
-    let bind (f: ('a -> (unit -> 'b))) (x: unit -> 'a) : (unit -> 'a) -> (unit -> 'b) = 
+    let bind (f: ('a -> (unit -> 'b))): (unit -> 'a) -> (unit -> 'b) = 
         fun (foo: (unit -> 'a)) -> let a = foo()
                                    f a
 

@@ -38,10 +38,10 @@ module Lazy =
     (apply (pure' id) (pure' 5)) () = (pure' 5) ()
     let map' fn = apply (pure' fn)
 
-    let strangeAdd10 x  =  if (x < 10) then 
-                               fun () -> failwith "toosmall"
-                           else
-                               fun () -> x + 10 
+    let getPassword x  = if (x < 10) then 
+                            fun () -> "kensentme" 
+                         else
+                            fun () -> "someotherpassword" 
 
 
     let timebomb (password: string): unit-> int= 
