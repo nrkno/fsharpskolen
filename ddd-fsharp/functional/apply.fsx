@@ -29,7 +29,7 @@ module Lazy =
     let pure' x = fun () -> x  
     let apply f x = let value = x()
                     let myFunc = f()
-                    myFunc value
+                    fun () -> myFunc value
 
     apply (pure' add10) (pure' 5)
 
